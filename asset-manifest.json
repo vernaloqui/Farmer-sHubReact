@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Farmer-sHubReact/static/css/main.f4d8ae5f.css",
+    "main.js": "/Farmer-sHubReact/static/js/main.aa240a45.js",
+    "static/media/produce.png": "/Farmer-sHubReact/static/media/produce.c7ed54240a6aa5169952.png",
+    "static/media/pantry.png": "/Farmer-sHubReact/static/media/pantry.c1e5365d33a180e87bbe.png",
+    "static/media/Ulam.png": "/Farmer-sHubReact/static/media/Ulam.a543ec09b446a0b2d618.png",
+    "static/media/testi2.png": "/Farmer-sHubReact/static/media/testi2.5b3514363c2a4444403a.png",
+    "static/media/testi3.png": "/Farmer-sHubReact/static/media/testi3.63eb0d1f5c249538e505.png",
+    "static/media/fruitBasket.jpg": "/Farmer-sHubReact/static/media/fruitBasket.df6c685017fdf99335dc.jpg",
+    "static/media/testi1.png": "/Farmer-sHubReact/static/media/testi1.26fd5894206d2a3d3dfa.png",
+    "static/media/logo.png": "/Farmer-sHubReact/static/media/logo.76309815cfbba6b36904.png",
+    "static/media/salad.jpg": "/Farmer-sHubReact/static/media/salad.2e342c24f54c709df2e7.jpg",
+    "index.html": "/Farmer-sHubReact/index.html",
+    "main.f4d8ae5f.css.map": "/Farmer-sHubReact/static/css/main.f4d8ae5f.css.map",
+    "main.aa240a45.js.map": "/Farmer-sHubReact/static/js/main.aa240a45.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f4d8ae5f.css",
+    "static/js/main.aa240a45.js"
+  ]
+}
