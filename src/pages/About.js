@@ -1,15 +1,19 @@
+import image1 from "../img/image1.jpg";
+import "../components/about.css";
 function About(){
     return(
         <section id="about" className="container-fluid">
             <div className="about-1 text-justify">
+           
             <h1>About Us</h1>
+
             <div className="container">
             <p> In the Philippines, majority of the farmers belong to the low-income className. Thus, the conventional supply chain of fresh produce in the Philippines can be expressed as follows: farm-to-middleman-to-second-middleman-to-third-middleman-to-fourth-middleman-to-fifth-middleman-to-table. There’s extra cost that goes for each middle-man who in turn just drive up the prices of the agricultural crops in the market. With recent events of importation of several produce from neighboring countries, most of the Filipinos favor the low-priced imported goods over the local crops of our farmers. A Farmers' Hub (FH) is a one-stop commercial service platform where smallholders can access quality agri-inputs, farm machinery, markets, finance, and knowledge.
             </p>
                 </div>
             </div>  
             <div className="container-fluid">
-                    <img src={"../img/image1.jpg"} alt=".." className="d-block w-100"/> 
+                    <img src={image1} alt=".." className="d-block w-100"/> 
             </div>
             <br/>
             <div id="about-2 container content-box-lg">
@@ -37,6 +41,7 @@ function About(){
                     </div>
                 </div>
             </div>
+          
         </section>
     )
 }
