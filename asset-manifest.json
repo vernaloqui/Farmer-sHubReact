@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Farmer-sHubReact/static/css/main.f4d8ae5f.css",
-    "main.js": "/Farmer-sHubReact/static/js/main.aa240a45.js",
+    "main.js": "/Farmer-sHubReact/static/js/main.3777b94c.js",
     "static/media/produce.png": "/Farmer-sHubReact/static/media/produce.c7ed54240a6aa5169952.png",
     "static/media/pantry.png": "/Farmer-sHubReact/static/media/pantry.c1e5365d33a180e87bbe.png",
     "static/media/Ulam.png": "/Farmer-sHubReact/static/media/Ulam.a543ec09b446a0b2d618.png",
@@ -13,10 +13,10 @@
     "static/media/salad.jpg": "/Farmer-sHubReact/static/media/salad.2e342c24f54c709df2e7.jpg",
     "index.html": "/Farmer-sHubReact/index.html",
     "main.f4d8ae5f.css.map": "/Farmer-sHubReact/static/css/main.f4d8ae5f.css.map",
-    "main.aa240a45.js.map": "/Farmer-sHubReact/static/js/main.aa240a45.js.map"
+    "main.3777b94c.js.map": "/Farmer-sHubReact/static/js/main.3777b94c.js.map"
   },
   "entrypoints": [
     "static/css/main.f4d8ae5f.css",
-    "static/js/main.aa240a45.js"
+    "static/js/main.3777b94c.js"
   ]
 }
