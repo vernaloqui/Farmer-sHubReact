@@ -10,6 +10,11 @@ import About from './pages/About';
 import Help from './pages/Help';
 import FarmerPartner from './pages/FarmerPartner';
 import SellerCenter from './pages/SellerCenter';
+import Veggies from './components/Veggies';
+import All from './components/AllProduce';
+import Fruits from './components/Fruits';
+import SHerbs from './components/Sherbs';
+import BestSellers from './components/BestSellers';
 
 
 function App() {
@@ -27,6 +32,11 @@ function App() {
           {/* <Route path="/checkOut" element={<CheckOut/>} /> */}
           <Route path="/farmerPartner" element={<FarmerPartner/>} />
           <Route path="/sellerCenter" element={<SellerCenter/>} />
+          <Route path="/veggies" element={<Veggies/>} />
+          <Route path="/all" element={<All/>} />
+          <Route path="/fruits" element={<Fruits/>} />
+          <Route path="/sherbs" element={<SHerbs/>} />
+          <Route path="/best" element={<BestSellers/>} />
         </Routes>
       </div>
       <Back2Top />

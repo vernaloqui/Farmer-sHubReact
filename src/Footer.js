@@ -18,7 +18,7 @@ function Footer(){
                 </div>
                 {/* <!--Icons--> */}
                 <div className="col justify-content-center">
-                    <div><p className="text-dark text-uppercase fw-bold">Follow us </p></div>
+                    <div><p style={{fontSize: '18px', color: '#073418', paddingBottom:'15px'}} className="text-dark text-uppercase fw-bold">Follow us </p></div>
                     <p><a href="www.facebook.com"><i className="bi bi-facebook mx-4" style={{color:'#A2DBB7'}}></i></a>
                     <a href="instagram.com"><i className="bi bi-instagram mx-4" style={{color:'#A2DBB7'}}></i></a>
                     <a href="twitter.com"> <i className="bi bi-twitter mx-4" style={{color:'#A2DBB7'}}></i></a></p>
