@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Farmer-sHubReact/static/css/main.ceafeedc.css",
-    "main.js": "/Farmer-sHubReact/static/js/main.f9ee52c7.js",
+    "main.js": "/Farmer-sHubReact/static/js/main.71f9a7b8.js",
     "static/media/produce.png": "/Farmer-sHubReact/static/media/produce.c7ed54240a6aa5169952.png",
     "static/media/fruitsPage.png": "/Farmer-sHubReact/static/media/fruitsPage.403018428db499b14ffa.png",
     "static/media/pantry.png": "/Farmer-sHubReact/static/media/pantry.c1e5365d33a180e87bbe.png",
@@ -82,10 +82,10 @@
     "static/media/pear.png": "/Farmer-sHubReact/static/media/pear.55dad7b7a54ea5b4b3a2.png",
     "index.html": "/Farmer-sHubReact/index.html",
     "main.ceafeedc.css.map": "/Farmer-sHubReact/static/css/main.ceafeedc.css.map",
-    "main.f9ee52c7.js.map": "/Farmer-sHubReact/static/js/main.f9ee52c7.js.map"
+    "main.71f9a7b8.js.map": "/Farmer-sHubReact/static/js/main.71f9a7b8.js.map"
   },
   "entrypoints": [
     "static/css/main.ceafeedc.css",
-    "static/js/main.f9ee52c7.js"
+    "static/js/main.71f9a7b8.js"
   ]
 }
