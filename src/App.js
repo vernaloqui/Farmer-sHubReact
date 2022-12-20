@@ -9,6 +9,7 @@ import Produce from './pages/Combined';
 import About from './pages/About';
 import Help from './pages/Help';
 import FarmerPartner from './pages/FarmerPartner';
+import SellerCenter from './pages/SellerCenter';
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
           <Route path="/help" element={<Help/>} />
           {/* <Route path="/checkOut" element={<CheckOut/>} /> */}
           <Route path="/farmerPartner" element={<FarmerPartner/>} />
-          {/* <Route path="/sellerCenter" element={<SellerCenter/>} /> */}
+          <Route path="/sellerCenter" element={<SellerCenter/>} />
         </Routes>
       </div>
       <Back2Top />
