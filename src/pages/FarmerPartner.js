@@ -70,10 +70,10 @@ function FarmerPartner(){
                                         <span className="input-group-text">Upload ID card:</span>
                                         <input type="file" className="form-control" id="idCard"/>
                                     </div>
-                                        <p style="font-size:12px;">Max of 5MB with jpg, jpeg, pdf, png file types only</p>
+                                        <p style={{fontSize: '12px'}}>Max of 5MB with jpg, jpeg, pdf, png file types only</p>
                                     
                                         <div className="border-top">
-                                            <p className="fw-bold" style="font-size:15px;">Address</p>
+                                            <p className="fw-bold" style={{fontSize: '15px'}}>Address</p>
                                         </div>
                                         <div className="input-group mb-3">
                                             <label for="Address1" className="input-group-text">House Number:</label>
@@ -132,7 +132,7 @@ function FarmerPartner(){
                                         </label>
                                     </div>
                                     
-                                    <p className="fw-bold" style="font-size:15px;">Credit card details</p>
+                                    <p className="fw-bold" style={{fontSize: '15px'}}>Credit card details</p>
                                     <br/>
                                     <div className="input-group mb-3">
                                         <span className="input-group-text" id="EmailUser">Credit card number:</span>
@@ -168,14 +168,14 @@ function FarmerPartner(){
                             data-bs-parent="#RegisterAccount">
                                 
                                 <div className="accordion-body text-justify">
-                                    <p className="fw-bold" style="font-size:15px;">Store and Product Information</p>
+                                    <p className="fw-bold" style={{fontSize: '15px'}}>Store and Product Information</p>
                                     <br/>
                                     
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">Store name:</span>
                                         <input type="text" name="storeName" id="storeName" className="form-control"/>
                                     </div><br/>
-                                    <p style="font-size:12px;">Please select the category/ies of products you want to sell.</p>
+                                    <p style={{fontSize: '12px'}}>Please select the category/ies of products you want to sell.</p>
                                     <div className="form-check">
                                         <input type="checkbox" className="form-check-input" id="fruits" value="fruits"/>
                                         <label className="form-check-label" for="fruits">  Fruits</label><br/>
@@ -195,15 +195,15 @@ function FarmerPartner(){
                 
                 <div className="form-check">
                     <input type="checkbox" className="form-check-input" id="tandC"/>
-                    <label className="form-check-label" for="tandC">I agree with the <a href="">Terms and Conditions</a>.</label>
+                    <label className="form-check-label" for="tandC">I agree with the <a href="./Login">Terms and Conditions</a>.</label>
                 </div>
                 <div className="form-check">
                     <input type="checkbox" className="form-check-input" id="privacy"/>
-                    <label className="form-check-label" for="privacy">I agree with the <a href="">Privacy Policy</a>.</label>
+                    <label className="form-check-label" for="privacy">I agree with the <a href="./Login">Privacy Policy</a>.</label>
                 </div>
                 <br/>
-                <button type="submit" className="btn text-capitalize" style="background-color:#A2DBB7; border-radius:5px; box-shadow:5px 5px grey;" onclick="RegisterPartner();">Register Account</button><br/><br/>
-                <a href="Login.html"><button type="button" className="btn btn-link text-muted" style="text-decoration:none;">Already have an account? Log in here.</button></a>
+                <button type="submit" className="btn text-capitalize" style={{backgroundColor: '#A2DBB7', borderRadius: '5px', boxShadow: '5px', color: 'grey'}} onclick="RegisterPartner();">Register Account</button><br/><br/>
+                <a href="Login.html"><button type="button" className="btn btn-link text-muted" style={{textDecoration:'none'}}>Already have an account? Log in here.</button></a>
                 
             </form>
         </section>
