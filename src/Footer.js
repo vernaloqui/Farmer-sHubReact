@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 function Footer(){
 
     return(
@@ -40,7 +41,7 @@ function Footer(){
 
                 <div className="col-md-2">
                 <h6 className="text-uppercase fw-bold">
-                    <a href="SellerCenter.html" style={{color:'#073418'}}>Seller Center</a>
+                    <Link to="/sellerCenter" style={{color:'#073418'}}>Seller Center</Link>
                 </h6>
                 </div>
             </div>
