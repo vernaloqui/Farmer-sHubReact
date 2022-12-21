@@ -1,42 +1,106 @@
+import { useEffect , useState} from 'react';
+import axios from 'axios';
+import {Link, useNavigate} from 'react-router-dom';
+
 function Login(){
+    const [email, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const [db, setDb] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const url = 'http://localhost/farmers_db/db.php'
+        axios.get(url).then((response) =>{
+            setDb(response.data);
+            db.map((val)=>{
+                return(
+                    console.log(val.email)
+                )
+            })
+        })
+    },[])
+    const submitBtn = function (e){
+        e.preventDefault();
+        console.log(document.getElementById("email").value);
+        console.log(document.getElementById("password").value);
+    
+        let getData = new FormData();
+        axios({
+            method: 'POST', //get / post
+            url:    'http://localhost/farmers_db/db.php', //db link
+            data: getData,
+            config: 'Content-Type="multipart/form-control"'  //data to be transferred
+        }).then(function(){
+            const url = 'http://localhost/farmers_db/db.php'
+            axios.get(url).then((response) =>{
+                setDb(response.data);
+                db.map((val)=>{
+                    if ((val.email) == (document.getElementById('email').value) && (val.pass)== (document.getElementById('password').value)) {
+                        return(
+                            alert ("Successfully Logged in"),
+                            navigate('/')
+                        )
+                    } 
+                         
+                })
+            }) 
+        })
+    }
+    
+
     
     return (
-    <section className="container mt-5">
+        
+    <section className="container mt-2 w-25">
+        
     
         <p className="h4  text-center">Login | 
-            <a type="button" 
+            <Link type="button" 
                 className="text-muted" 
-                href="CustRegistration.html"
+                to="/registration"
                 style={{textDecoration:'none'}}>Register
-            </a>
+            </Link>
         </p>
         <br/>
         <br/>
 
         <div className="mb-3">
-        <form className="logIn container border border-secondary rounded p-4" name="ValidForm" action="">
+        <form className="logIn container border border-secondary rounded p-4" name="ValidForm" action="" 
+            style={{
+                    padding: "5rem 2.5rem",
+                    borderRadius: "1rem",
+                    border: "1px solid transparent",
+                    backdropFilter: "blur (1rem)",
+                    boxShadow: "1.3rem 1.3rem 1.3rem rgba(0,0,0, 0.5)",
+                    borderTopColor: "rgba(225, 225, 225, 225, 0.5)",
+                    borderLeftColor: "rgba(225, 225, 225, 225, 0.5)",
+                    borderBottomColor: "rgba(225, 225, 225, 225, 0.5)",
+                    borderRightColor: "rgba(225, 225, 225, 225, 0)"
+            }}>
 
             {/* <div onLoad={document.form.text.focus()}> */}
             <div className="mail">
 
-            <label for="uname" className="form-label">Email address</label>
-            <input type="text" name='ValidText' className="form-control" placeholder="example@gmail.com"/>
+            <label htmlFor="uname" className="form-label">Email address</label>
+            <input type="text" name='email' id='email' className="form-control" placeholder="example@gmail.com" 
+                   value={email} onChange={(e) => setUsername(e.target.value)} />
             </div>
             <br/>
 
             <div className="mb-3">
-                <label for="psw" className="form-label">Password</label>
-                <input type="password" className="form-control" id="psw" required/>
+                <label htmlFor="psw" className="form-label">Password</label>
+                <input type="password" className="form-control" id="password" name='password' value={password} 
+                        onChange={(e) => setPassword(e.target.value)} required/>
             </div>
 
             <div className="form-check">
                 <input type="checkbox" className="form-check-input" id="Remember"/>
-                <label className="form-check-label"  for="Remember">Remember me</label>
+                <label className="form-check-label"  htmlFor="Remember">Remember me</label>
             </div>
             <br/>
 
-            <button type="button" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', 
-            boxShadow:'5px 5px grey'}} >Login</button>
+            <input type="submit" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', 
+            boxShadow:'5px 5px grey'}} value="Login" onClick={submitBtn}/>
 
             <button type="button" className="btn btn-link text-muted" style={{textDecoration:'none', marginLeft: '80%'}} 
             data-bs-toggle="modal" data-bs-target="#forgotPw">Forgot password</button>
