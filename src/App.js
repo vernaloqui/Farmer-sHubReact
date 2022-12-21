@@ -15,7 +15,7 @@ import All from './components/AllProduce';
 import Fruits from './components/Fruits';
 import SHerbs from './components/Sherbs';
 import BestSellers from './components/BestSellers';
-
+import Registration from './pages/Registration';
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
           <Route path="/fruits" element={<Fruits/>} />
           <Route path="/sherbs" element={<SHerbs/>} />
           <Route path="/best" element={<BestSellers/>} />
+          <Route path="/registration" element={<Registration/>} /> 
         </Routes>
       </div>
       <Back2Top />
