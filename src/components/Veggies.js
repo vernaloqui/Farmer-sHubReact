@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import Produce from '../pages/Combined';
 import papaya from '../img/papaya.jpg';
 import patola from '../img/patola.jpg';
@@ -13,6 +14,7 @@ import sigarilyas from "../img/sigarilyas.jpg";
 import labuyo from "../img/sili labuyo.jpg";
 
 function Veggies() {
+    const [count, setCount] = useState(0);
     return(
         <section>
         <Produce/>
