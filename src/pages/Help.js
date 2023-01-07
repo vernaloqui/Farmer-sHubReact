@@ -1,5 +1,6 @@
 function Help(){
     return(
+      
         <section>
                 <h3 className="fw-bold mt-5 ms-3">Frequently Asked Questions</h3>
         {/* <!--FAQ section--> */}
@@ -7,12 +8,16 @@ function Help(){
         <div className="accordion" id="myAccordion">
             {/* <!--Question #1--> */}
             <div className="accordion-item">
-            <h2 className="accordion-header" id="headingOne">
-                <button type="button" className="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne"> Where are your fruits and vegetables sourced? </button>
+            <h2 className="accordion-header" id="headingOne"> 
+                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                <i class="bi bi-question-diamond-fill" >&nbsp;</i> Where are your fruits and vegetables sourced?
+                </button> 
             </h2>
-            <div id="collapseOne" className="accordion-collapse collapse">
+            <div id="collapseOne" className="accordion-collapse collapse ">
                 <div className="card-body">
-                <p className="ms-3 mt-3"> We get our products from farmers all over the country. We import fruits and vegetables that are not grown locally. </p>
+                <p className="ms-5 mt-4" >
+                We get our products from farmers all over the country. We import fruits and vegetables that are not grown locally. </p>
+                <br/>
                 </div>
             </div>
             </div>
@@ -20,11 +25,11 @@ function Help(){
             <!--Question #2--> */}
             <div className="accordion-item">
             <h2 className="accordion-header" id="headingTwo">
-                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"> How should your products be stored? </button>
+                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> How should your products be stored? </button>
             </h2>
-            <div id="collapseTwo" className="accordion-collapse collapse show">
+            <div id="collapseTwo" className="accordion-collapse collapse">
                 <div className="card-body">
-                <p className="ms-3 mt-3"> This varies depending on the product. In general, store leafy vegetables in the refrigerator. Root crops, such as potatoes and onions, can be stored at room temperature in a cool, dry place. Fruits should be refrigerated. </p>
+                <p className="ms-5 mt-4" > This varies depending on the product. In general, store leafy vegetables in the refrigerator. Root crops, such as potatoes and onions, can be stored at room temperature in a cool, dry place. Fruits should be refrigerated. </p>
                 </div>
             </div>
             </div>
@@ -32,11 +37,11 @@ function Help(){
             <!--Question #3--> */}
             <div className="accordion-item">
             <h2 className="accordion-header" id="headingThree">
-                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseThree"> How quickly can you deliver? </button>
+                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseThree"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> How quickly can you deliver? </button>
             </h2>
-            <div id="collapseThree" className="accordion-collapse collapse show">
+            <div id="collapseThree" className="accordion-collapse collapse ">
                 <div className="card-body">
-                <p className="ms-3 mt-3"> We have our own delivery service and can deliver to your door the next day (except Sundays) if you place your order before the daily cutoff time of 8 p.m. </p>
+                <p className="ms-5 mt-4"> We have our own delivery service and can deliver to your door the next day (except Sundays) if you place your order before the daily cutoff time of 8 p.m. </p>
                 </div>
             </div>
             </div>
@@ -44,11 +49,11 @@ function Help(){
             <!--Question #4--> */}
             <div className="accordion-item">
             <h2 className="accordion-header" id="headingFour">
-                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFour"> How do you deliver our orders? </button>
+                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFour"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> How do you deliver our orders? </button>
             </h2>
-            <div id="collapseFour" className="accordion-collapse collapse show">
+            <div id="collapseFour" className="accordion-collapse collapse ">
                 <div className="card-body">
-                <p className="ms-3 mt-3"> We deliver your orders using our fleet of refrigerated vans to ensure the freshness of your order. </p>
+                <p className="ms-5 mt-4"> We deliver your orders using our fleet of refrigerated vans to ensure the freshness of your order. </p>
                 </div>
             </div>
             </div>
@@ -56,11 +61,11 @@ function Help(){
             <!--Question #5--> */}
             <div className="accordion-item">
             <h2 className="accordion-header" id="headingFive">
-                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFive"> If I am not satisfied with my orders, what are my options? </button>
+                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFive"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> If I am not satisfied with my orders, what are my options? </button>
             </h2>
-            <div id="collapseFive" className="accordion-collapse collapse show">
+            <div id="collapseFive" className="accordion-collapse collapse ">
                 <div className="card-body">
-                <p className="ms-3 mt-3"> Due to the nature of our products, it is our policy that once the items are received and accepted, it is assumed that you have inspected and are satisfied with our products. We do allow you to reject items on the spot if you are dissatisfied with them. As a result, we strongly recommend that you or your representative inspect the delivered items one by one. </p>
+                <p className="ms-5 mt-4"> Due to the nature of our products, it is our policy that once the items are received and accepted, it is assumed that you have inspected and are satisfied with our products. We do allow you to reject items on the spot if you are dissatisfied with them. As a result, we strongly recommend that you or your representative inspect the delivered items one by one. </p>
                 </div>
             </div>
             </div>
@@ -68,11 +73,11 @@ function Help(){
             <!--Question #6--> */}
             <div className="accordion-item">
             <h2 className="accordion-header" id="headingSix">
-                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseSix"> Do you accept bulk orders? </button>
+                <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseSix"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> Do you accept bulk orders? </button>
             </h2>
-            <div id="collapseSix" className="accordion-collapse collapse show">
+            <div id="collapseSix" className="accordion-collapse collapse ">
                 <div className="card-body">
-                <p className="ms-3 mt-3"> We certainly do! Large orders for businesses, restaurants, and parties are welcome. If you have any further questions, please contact us via email and we will get back to you. </p>
+                <p className="ms-5 mt-4"> We certainly do! Large orders for businesses, restaurants, and parties are welcome. If you have any further questions, please contact us via email and we will get back to you. </p>
                 </div>
             </div>
             </div>
