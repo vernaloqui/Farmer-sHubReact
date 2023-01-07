@@ -97,7 +97,7 @@ function Home(){
             </div>
                         <div className="row d-flex justify-content-center">
                             <div className="col-md-4 m-2 card Review  text-center">
-                                <img className="card-img-top" src={one} alt=".."/>
+                                <img className="mt-2 card-img img-thumbnail" src={one} alt=".."/>
                                 <div className="card-body">
                                 <h4 style={{color: 'green', fontSize: '21px', lineHeight: '1.3'}}> Juan Dela Cruz <br/></h4><hr/>
                                 <span style={{fontSize: '18px',color: '#073418'}} className="fst-italic fw-bold"> Farmer 1</span>
@@ -106,7 +106,7 @@ function Home(){
                                 </div>
                             </div>
                             <div className="col-md-4 m-2 card Review  text-center">
-                                <img className="card-img-top" src={two} alt=".."/>
+                                <img className="mt-2 card-img img-thumbnail" src={two} alt=".."/>
                                 <div className="card-body">
                                     <h4 style={{color: 'green', fontSize: '21px', lineHeight: '1.3'}}>Imee Perez </h4><hr/>
                                     <span style={{fontSize: '18px',color: '#073418'}} className="fst-italic fw-bold"> Farmer 2</span>
@@ -115,7 +115,7 @@ function Home(){
                                 </div>
                             </div>
                             <div className="col-md-4 m-2 card Review  text-center">
-                            <img className="card-img-top" src={three} alt=".."/>
+                            <img className="mt-2 card-img img-thumbnail" src={three} alt=".."/>
                                 <div className="card-body">
                                     <h4 style={{color: 'green', fontSize: '21px', lineHeight: '1.3'}}>Jane Marcos </h4><hr/>
                                     <span style={{fontSize: '18px',color: '#073418'}} className="fst-italic fw-bold"> Farmer 3</span>
