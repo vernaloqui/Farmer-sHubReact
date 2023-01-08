@@ -17,7 +17,6 @@ function Help(){
                 <div className="card-body">
                 <p className="ms-5 mt-4" >
                 We get our products from farmers all over the country. We import fruits and vegetables that are not grown locally. </p>
-                <br/>
                 </div>
             </div>
             </div>
