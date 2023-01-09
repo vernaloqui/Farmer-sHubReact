@@ -35,7 +35,7 @@ function Login(){
             axios.get(url).then((response) =>{
                 setDb(response.data);
                 db.map((val)=>{
-                    if ((val.email) == (document.getElementById('email').value) && (val.pass)== (document.getElementById('password').value)) {
+                    if ((val.email) === (document.getElementById('email').value) && (val.pass) === (document.getElementById('password').value)) {
                         return(
                             alert ("Successfully Logged in"),
                             navigate('/')

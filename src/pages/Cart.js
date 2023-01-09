@@ -1,38 +1,22 @@
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+
 function Cart(){
+    const [product, setProduct] = useState();
+    const [quantity, setQuantity] = useState();
+    const [unit_price, setUnitPrice] = useState();
+    const [subtotal, setSubtotal] = useState();
+    const [products,setProducts] = useState();
+    useEffect(() => {
+        const url = 'http://localhost/farmersHub/db.php';
+        axios.get(url).then((response) => {
+            setProducts(response.data);
+            console.log(products);
+        })
+    }, [])
+
+
     return (
-        <div>
-             <style>
-        body {{
-            fontFamily:'Poppins sans-serif'
-        }},
-        
-        .card{{
-            width:'90%',
-            maxWidth:'400px',
-            padding: '5rem 2.5rem',
-            borderRadius: '1rem',
-            border: '1px solid transparent',
-            backdropFilter: 'blur (1rem)',
-            boxShadow: '1.3rem 1.3rem 1.3rem rgba(0,0,0, 0.5)',
-            borderTopColor: 'rgba(225, 225, 225, 225, 0.5)',
-            borderLeftColor: 'rgba(225, 225, 225, 225, 0.5)',
-            borderBottomColor: 'rgba(225, 225, 225, 225, 0.5)',
-            borderRightColor: 'rgba(225, 225, 225, 225, 0.5)',
-            backgroundColor: 'linear-gradient(to right bottom, rgba(225, 225,225, 0.5), rgba(225,225,225,0.3))'
-        }},
-        
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {{
-        webkitAppearance: 'none',
-        margin: '0'
-        }},
-
-        input[type=number]{ {
-        mozAppearance: textfield,
-        }}
-    </style>
-
-    {/* <!--Navigation Bar--> */}
     <div className="container-fluid" style={{backgroundColor: '#F8FEFA'}}>
         <div className="navbar navbar-expand-md">
                     <a className="navbar-brand" href="index.html">

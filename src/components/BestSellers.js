@@ -1,3 +1,5 @@
+import React, {useState, useEffect} from 'react'
+import {Col,Row} from 'react-bootstrap';
 import Produce from '../pages/Combined'
 import Card from './Card'
 import pakbet from '../img/pinakbet.jpg'
@@ -33,8 +35,54 @@ import talbos from '../img/talbos.png'
 import herb6 from '../img/herbs6pieces.png'
 import herb3 from '../img/herbs3pieces.png'
 import duo from '../img/duo.png'
+import axios from 'axios'
 
 function BestSellers(){
+    const [ulam,setUlam] = useState([]);
+
+    useEffect(() => {
+        getUlam();
+    }, []);
+    function getUlam(){
+        axios.get('http://localhost/farmersHub/ulam.php').then(function(response){
+            console.log(response.data);
+            setUlam(response.data);
+        });
+    }
+    const [fBasket,setFBasket] = useState([]);
+
+    useEffect(() => {
+        getfBasket();
+    }, []);
+    function getfBasket(){
+        axios.get('http://localhost/farmersHub/fruitsBasket.php').then(function(response){
+            console.log(response.data);
+            setFBasket(response.data);
+        });
+    }
+    const [salad,setSalad] = useState([]);
+
+    useEffect(() => {
+        getSalad();
+    }, []);
+    function getSalad(){
+        axios.get('http://localhost/farmersHub/salad.php').then(function(response){
+            console.log(response.data);
+            setSalad(response.data);
+        });
+    }
+    const [pantry,setPantry] = useState([]);
+
+    useEffect(() => {
+        getPantry();
+    }, []);
+    function getPantry(){
+        axios.get('http://localhost/farmersHub/pantry.php').then(function(response){
+            console.log(response.data);
+            setPantry(response.data);
+        });
+    }
+
     return(
         <div>
         <Produce/>
@@ -60,20 +108,15 @@ function BestSellers(){
                     <h3 className="mb-3 text-center">Ulam Bundles</h3>
                     <p className="text-center">The Ulam Bundle has all the fresh vegetables, leafy greens and rekados (ginger, tomato, onion, garlic) you need for one ulam, to serve your family or friends. Sulit and convenient.</p>
                     <p className="fst-italic text-center">*meats not included</p>
-                    
-                    <div className="g-2 m-2 d-inline-flex justify-content-center">                        
-                        <Card img={pakbet} alt={"pakbet"} id={"pakbet"} title={"Pakbet"} textId={"pakbetPrice"} text={"₱35.00"} qtyId={"pakbetQTY"}/>
-                        <Card img={chopseuy} alt={"chopseuy"} id={"chopseuy"} title={"Chop Seuy"} textId={"chopseuyPrice"} text={"₱35.00"} qtyId={"chopQTY"}/>
-                        <Card img={gabi} alt={"gabi"} id={"sigangGabi"} title={"Sinigang with Gabi"} textId={"sigangGabiPrice"} text={"₱50.00"} qtyId={"sGabiQTY"}/>
-                        <Card img={shrimp} alt={"shrimp"} id={"Sigang"} title={"Seafood Sinigang"} textId={"SigangPrice"} text={"₱50.00"} qtyId={"sigangQTY"}/>                        
-                    </div>
-                    <br/>
-                    <div className="g-2 m-1 d-inline-flex justify-content-center">                        
-                        <Card img={karekare} alt={"karekare"} id={"Kare"} title={"Kare Kare"} textId={"KarePrice"} text={"₱50.00"} qtyId={"kareQTY"}/>
-                        <Card img={monggo} alt={"monggo"} id={"Munggo"} title={"Monggo"} textId={"MunggoPrice"} text={"₱40.00"} qtyId={"munggoQTY"}/>
-                        <Card img={misua} alt={"misua"} id={"miswa"} title={"Miswa"} textId={"MiswaPrice"} text={"₱30.00"} qtyId={"miswaQTY"}/>
-                        <Card img={laga} alt={"laga"} id={"laga"} title={"Nilaga or Bulalo"} textId={"LagaPrice"} text={"₱70.00"} qtyId={"lagaQTY"}/>                        
-                    </div>
+                    <center>
+                    {ulam.map((val)=>{
+                        return(
+                            <Row key={val.ulam_id} className="g-2 m-1 d-inline-flex justify-content-center">
+                                <Col><Card img={pakbet} alt={val.ulam_title} title={val.ulam_title} Price={val.ulam_price}/></Col>
+                            </Row>
+                        )
+                    })}
+                    </center>
                     <br/>
                 </div>
 
@@ -163,27 +206,36 @@ function BestSellers(){
                                     <p>Medium: 10 pcs</p>
                                     <p>Large: 15 pcs</p>
                             </div>
-                            <div className="g-2 m-1 d-inline-flex justify-content-center">
-                                <Card img={pineapple} alt={"pineapple"} title={"Pineapple"}  qtyId={"pineappleQty"}/>
-                                <Card img={avocado} alt={"avocado"} title={"Avocado"} qtyId={"avoQty"}/>
-                                <Card img={apple} alt={"apple"} title={"Apple"} qtyId={"appleQty"}/>
-                                <Card img={lemon} alt={"lemon"} title={"Lemon"}  qtyId={"lemonQty"}/>
-                            </div>
-                            <div className="g-2 m-1 d-inline-flex justify-content-center">
-                                <Card img={banana} alt={"banana"} title={"Banana"}  qtyId={"bananaQty"}/>
-                                <Card img={dragon} alt={"dragon"} title={"Dragon Fruit"} qtyId={"dragonQty"}/>
-                                <Card img={grapes} alt={"grapes"} title={"Grapes"} qtyId={"grapesQty"}/>
-                                <Card img={rambutan} alt={"rambutan"} title={"Rambutan"} qtyId={"rambutanQty"}/>
-                            </div>
-                            <div className="g-2 m-1 d-inline-flex justify-content-center">
-                                <Card img={mango} alt={"mango"} title={"Mango"}  qtyId={"mangoQty"}/>
-                                <Card img={pear} alt={"pear"} title={"Pear"} qtyId={"pearQty"}/>
-                                <Card img={papaya} alt={"papaya"} title={"Papaya"} qtyId={"papayaQty"}/>
-                                <Card img={orange} alt={"orange"} title={"Orange"} qtyId={"orangeQty"}/>
-                            </div>
+                            <center>
+                            {fBasket.map((val)=>{
+                                return(
+                                    <Row key={val.fruitBasket_id} className="g-2 m-1 d-inline-flex justify-content-center">
+                                        <Col><Card img={avocado} alt={val.fruitBasket_title} title={val.fruitBasket_title}/></Col>
+                                    </Row>
+                                )
+                            })}
+                            <Row className="g-2 m-1 d-inline-flex justify-content-center">
+                                <Col><Card img={pineapple} alt={"pineapple"} title={"Pineapple"}  qtyId={"pineappleQty"}/></Col>
+                                <Col><Card img={avocado} alt={"avocado"} title={"Avocado"} qtyId={"avoQty"}/></Col>
+                                <Col><Card img={apple} alt={"apple"} title={"Apple"} qtyId={"appleQty"}/></Col>
+                                <Col><Card img={lemon} alt={"lemon"} title={"Lemon"}  qtyId={"lemonQty"}/></Col>
+                            </Row>
+                            <Row className="g-2 m-1 d-inline-flex justify-content-center">
+                                <Col><Card img={banana} alt={"banana"} title={"Banana"}  qtyId={"bananaQty"}/></Col>
+                                <Col><Card img={dragon} alt={"dragon"} title={"Dragon Fruit"} qtyId={"dragonQty"}/></Col>
+                                <Col><Card img={grapes} alt={"grapes"} title={"Grapes"} qtyId={"grapesQty"}/></Col>
+                                <Col><Card img={rambutan} alt={"rambutan"} title={"Rambutan"} qtyId={"rambutanQty"}/></Col>
+                            </Row>
+                            <Row className="g-2 m-1 d-inline-flex justify-content-center">
+                                <Col><Card img={mango} alt={"mango"} title={"Mango"}  qtyId={"mangoQty"}/></Col>
+                                <Col><Card img={pear} alt={"pear"} title={"Pear"} qtyId={"pearQty"}/></Col>
+                                <Col><Card img={papaya} alt={"papaya"} title={"Papaya"} qtyId={"papayaQty"}/></Col>
+                                <Col><Card img={orange} alt={"orange"} title={"Orange"} qtyId={"orangeQty"}/></Col>
+                            </Row>
+
                                 <br/>
                                 <button className="btn btn-lg" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}  data-bs-toggle="modal" data-bs-target="#FBasket" onclick="printFruitBasket();"><i className="bi bi-cart4"></i> Confirm basket</button>
-                            
+                            </center>
                         </div> 
                     
                 </div>
@@ -242,33 +294,26 @@ function BestSellers(){
                 <div className="tab-pane" id="SaladSet">
                     <div className="row g-0 m-1 d-flex justify-content-center">
                         <h3 className="mb-3 text-center">Salad Set</h3>
-                        {/* <!--Start of Carousel--> */}
-                        <div className="col-md-12 text-center">
-                            <a className="btn mb-3 mr-1" href="#SaladCarousel" role="button" data-bs-slide="prev" style={{backgroundColor:'#A2DBB7'}}><i className="bi bi-caret-left-square-fill"></i></a>
-                            <a className="btn mb-3" href="#SaladCarousel" role="button" data-bs-slide="next" style={{backgroundColor:'#A2DBB7'}}><i className="bi bi-caret-right-square-fill"></i></a>
-                        </div>
-                        <div className="container d-flex mt-3 mx-0 p-0">
-                            <div id="SaladCarousel" className="carousel slide carousel-fade carousel-dark" data-ride="carousel">
-                                {/* <!--Images--> */}
-                                <div className="carousel-inner w-100">
-                                    <div className="carousel-item active">
-                                        <div className="g-2 m-2 d-inline-flex justify-content-center">                        
-                                            <Card img={ampSalad} alt={"ampSalad"} id={"ampSalad"} title={"Ampalaya Salad"} priceID={"ampSaladPrice"} Price={'₱100.00'} text={"Includes a large ampalaya, tomato and red onion which is good for 2-3 persons"} qtyId={"ampSaladQTY"}/>
-                                            <Card img={cucumSalad} alt={"cucumSalad"} id={"cucumSalad"} title={"Cucumber Salad"} priceID={"cucumSaladPrice"} Price={'₱100.00'} text={"Includes cucumber, tomato and red onion which is good for 2-3 persons"} qtyId={"cucumSaladQTY"}/>
-                                            <Card img={ensalada} alt={"talongSalad"} id={"talongSalad"} title={"Ensaladang Talong"} priceID={"talongSaladPrice"} Price={'₱100.00'} text={"Includes eggplants, tomatoes, red onions which is good for 2-3 persons"} qtyId={"talongSaladQTY"}/>
-                                            <Card img={greens} alt={"greenSalad"} id={"greenSalad"} title={"Green Salad"} priceID={"greenSaladPrice"} Price={'₱100.00'} text={"Includes red onion, tomatoes, Avocado, cucumber, and lettuce which is good for 2-3 persons"} qtyId={"greenSaladQTY"}/>                                    
-                                        </div>
-                                    </div>
-                                    <div className="carousel-item"> 
-                                        <div className="g-2 m-2 d-inline-flex justify-content-center">                        
-                                            <Card img={lato} alt={"lato"} id={"lato"} title={"Lato (seaweed) Salad"} priceID={"latoPrice"} Price={'₱100.00'} text={"Includes lato, red onion and tomato which is good for 2-3 persons"} qtyId={"latoQTY"}/>
-                                            <Card img={mangoSalad} alt={"mangoSalad"} id={"mangoSalad"} title={"Mango Tomato Salad"} priceID={"mangoSaladPrice"} Price={'₱100.00'} text={"Includes large green mango, tomatoes, and red onion which is good for 2-3 persons"} qtyId={"mangoSaladQTY"}/>
-                                            <Card img={talbos} alt={"talbos"} id={"talbosSalad"} title={"Kamote Tops (Talbos) Salad"} priceID={"talbosSaladPrice"} Price={'₱100.00'} text={"Includes kamote tops, tomatoes, and red onion which is good for 2-3 persons"} qtyId={"talongSaladQTY"}/>                                  
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>            
-                        </div>
+                        <center>
+                        {salad.map((val)=>{
+                            return(
+                                <Row key={val.saladSet_id} className="g-2 m-1 d-inline-flex justify-content-center">
+                                    <Col><Card img={ampSalad} alt={val.saladSet_title} title={val.saladSet_title} text={val.saladSet_text} Price={val.saladSet_price}/></Col>
+                                </Row>
+                            )
+                        })}
+                        <Row className="g-2 m-2 d-inline-flex justify-content-center">                        
+                            <Col><Card img={ampSalad} alt={"ampSalad"} id={"ampSalad"} title={"Ampalaya Salad"} priceID={"ampSaladPrice"} Price={'₱100.00'} text={"Includes a large ampalaya, tomato and red onion which is good for 2-3 persons"} qtyId={"ampSaladQTY"}/></Col>
+                            <Col><Card img={cucumSalad} alt={"cucumSalad"} id={"cucumSalad"} title={"Cucumber Salad"} priceID={"cucumSaladPrice"} Price={'₱100.00'} text={"Includes cucumber, tomato and red onion which is good for 2-3 persons"} qtyId={"cucumSaladQTY"}/></Col>
+                            <Col><Card img={ensalada} alt={"talongSalad"} id={"talongSalad"} title={"Ensaladang Talong"} priceID={"talongSaladPrice"} Price={'₱100.00'} text={"Includes eggplants, tomatoes, red onions which is good for 2-3 persons"} qtyId={"talongSaladQTY"}/></Col>
+                            <Col><Card img={greens} alt={"greenSalad"} id={"greenSalad"} title={"Green Salad"} priceID={"greenSaladPrice"} Price={'₱100.00'} text={"Includes red onion, tomatoes, Avocado, cucumber, and lettuce which is good for 2-3 persons"} qtyId={"greenSaladQTY"}/></Col>
+                        </Row>
+                        <Row className="g-2 m-2 d-inline-flex justify-content-center">                        
+                            <Col><Card img={lato} alt={"lato"} id={"lato"} title={"Lato (seaweed) Salad"} priceID={"latoPrice"} Price={'₱100.00'} text={"Includes lato, red onion and tomato which is good for 2-3 persons"} qtyId={"latoQTY"}/></Col>
+                            <Col><Card img={mangoSalad} alt={"mangoSalad"} id={"mangoSalad"} title={"Mango Tomato Salad"} priceID={"mangoSaladPrice"} Price={'₱100.00'} text={"Includes large green mango, tomatoes, and red onion which is good for 2-3 persons"} qtyId={"mangoSaladQTY"}/></Col>
+                            <Col><Card img={talbos} alt={"talbos"} id={"talbosSalad"} title={"Kamote Tops (Talbos) Salad"} priceID={"talbosSaladPrice"} Price={'₱100.00'} text={"Includes kamote tops, tomatoes, and red onion which is good for 2-3 persons"} qtyId={"talongSaladQTY"}/></Col>                         
+                        </Row>
+                        </center>
                     </div>
                 </div>
 
@@ -278,11 +323,21 @@ function BestSellers(){
                         <h3 className="mb-3">Pantry Essentials</h3>
                         <p>If you're looking for a gift to your loved ones who love to cook, it's the perfect gift set. You can also have it for your own pantry.</p>
                     </div>
-                    <div className="g-2 m-2 d-inline-flex justify-content-center">
-                        <Card img={herb6} alt={"herb6"} id={"setA"} title={"Set A"} priceID={"setAPrice"} Price={'₱180.00'} text={"Consists of randomly available herbs and spices of 6 variety"} qtyId={"setAQTY"}/>
-                        <Card img={herb3} alt={"herb3"} id={"setB"} title={"Set B"} priceID={"setBPrice"} Price={'₱150.00'} text={"Boxed set of garlic flakes, Paprika and ground pepper."} qtyId={"setBQTY"}/>
-                        <Card img={duo} alt={"duo"} id={"setC"} title={"Set C"} priceID={"setCPrice"} Price={'₱75.00'} text={"Perfect Duo of Salt and pepper"} qtyId={"setCQTY"}/>                        
-                    </div>
+                    <center>
+                    {pantry.map((val)=>{
+                        return(
+                            <Row key={val.pantry_id} className="g-2 m-1 d-inline-flex justify-content-center">
+                                <Col><Card img={duo} alt={val.pantry_title} title={val.pantry_title} text={val.pantry_text} Price={val.pantry_price}/></Col>
+                            </Row>
+                        )
+                    })}               
+                    
+                    <Row className="g-2 m-2 d-inline-flex justify-content-center">
+                        <Col><Card img={herb6} alt={"herb6"} id={"setA"} title={"Set A"} priceID={"setAPrice"} Price={'₱180.00'} text={"Consists of randomly available herbs and spices of 6 variety"} qtyId={"setAQTY"}/></Col>
+                        <Col><Card img={herb3} alt={"herb3"} id={"setB"} title={"Set B"} priceID={"setBPrice"} Price={'₱150.00'} text={"Boxed set of garlic flakes, Paprika and ground pepper."} qtyId={"setBQTY"}/></Col>
+                        <Col><Card img={duo} alt={"duo"} id={"setC"} title={"Set C"} priceID={"setCPrice"} Price={'₱75.00'} text={"Perfect Duo of Salt and pepper"} qtyId={"setCQTY"}/></Col>
+                    </Row>
+                    </center>
                 </div>
             </div>
         <br/>

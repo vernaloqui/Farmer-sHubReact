@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from './img/logo.png';
 function Navbar(){
-    // let cart = {
-    // };
-    const toggleCart = function(){
-        let cartContainer = document.getElementById("cartBox");
     
-        cartContainer.classList.toggle("active");
-       
-    //    displayCartItems();
-   }
     return(
         <div >
         <nav className="navbar navbar-expand-lg">
@@ -49,32 +41,13 @@ function Navbar(){
              
             <div className="cartNav px-2 justify-content-center me-3" style={{float:'right'}}>
                 <div className="cartCounter"></div>
-                    <button className="nav-link"   style={{color:'#073418', backgroundColor:'Transparent', backgroundRepeat:'no-repeat', border: 'none',cursor:'pointer', overflow: 'hidden', outline:'none'}} onClick={toggleCart}>
-                    <i className="bi bi-cart4" style={{fontSize:'30px'}}></i></button>
-                {/* <!--Start of Shopping Cart section--> */}
-                <div className="shoppingCartContainer" id="cartBox" style={{display:'hidden'}}>
-                    <table className="table table-hover table-striped" id="cartContents">
-                        <thead>
-                            <tr>
-                                <th scope="col" >Product</th>
-                                <th scope="col" >Price</th>
-                                <th scope="col" className="text-center">Quantity</th>
-                                <th scope="col" >Subtotal</th>
-                                <th scope="col" className="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="cartContentsBody"></tbody>
-                    </table>
-                    <p className="total-container" id="total-price"></p>
-                    <button type="submit" className="btn btn-sm text-uppercase" style={{backgroundColor: '#073418', color:'#A2DBB7'}}><a href="CheckOut.html" style={{textDecoration:'none', color:'#A2DBB7'}}>Checkout</a></button>
-                    <button className="btn btn-sm shadow text-uppercase" style={{backgroundColor: '#073418', color:'#A2DBB7'}} >Remove all</button>
-                    <p id="cartEmpty" style={{display:'none'}}>Your cart is empty.</p>                        
-                </div>
+                    <Link className="nav-link" to="/cart" style={{color:'#073418', backgroundColor:'Transparent', backgroundRepeat:'no-repeat', border: 'none',cursor:'pointer', overflow: 'hidden', outline:'none'}}><i className="bi bi-cart4" style={{fontSize:'30px'}}></i></Link>
             </div>
             </div>
         </nav>
         </div>
     )
 }
+
 
 export default Navbar;

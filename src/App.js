@@ -20,28 +20,27 @@ import Registration from './pages/Registration';
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <div>
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/produce" element={<Produce/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/help" element={<Help/>} />
-          {/* <Route path="/checkOut" element={<CheckOut/>} /> */}
-          <Route path="/farmerPartner" element={<FarmerPartner/>} />
-          <Route path="/sellerCenter" element={<SellerCenter/>} />
-          <Route path="/veggies" element={<Veggies/>} />
-          <Route path="/all" element={<All/>} />
-          <Route path="/fruits" element={<Fruits/>} />
-          <Route path="/sherbs" element={<SHerbs/>} />
-          <Route path="/best" element={<BestSellers/>} />
-          <Route path="/registration" element={<Registration/>} /> 
-        </Routes>
-      </div>
-      <Back2Top />
-      <Footer />
+    <Navbar />
+    <div>
+    <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/login" element={<Login/>} />
+      <Route path="/produce" element={<Produce/>} />
+      <Route path="/login" element={<Login/>} />
+      <Route path="/about" element={<About/>} />
+      <Route path="/help" element={<Help/>} />
+      <Route path="/farmerPartner" element={<FarmerPartner/>} />
+      <Route path="/veggies" element={<Veggies/>} />
+      <Route path="/all" element={<All/>} />
+      <Route path="/fruits" element={<Fruits/>} />
+      <Route path="/sherbs" element={<SHerbs/>} />
+      <Route path="/best" element={<BestSellers/>} />
+      <Route path="/registration" element={<Registration/>} /> 
+      <Route path="/sellerCenter" element={<SellerCenter/>} />
+    </Routes>
+    </div>
+    <Back2Top />
+    <Footer />
     </div>
   );
 }

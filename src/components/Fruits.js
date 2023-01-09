@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import Produce from '../pages/Combined';
 import atis from '../img/atis.jpg';
 import avocado from '../img/avocado.png';
@@ -11,238 +12,58 @@ import corn from '../img/corn.png'
 import pipino from '../img/pipino.png'
 import dalandan from '../img/dandan.png'
 import dragon from '../img/dragon.png'
+import {Col,Row} from 'react-bootstrap';
+import Card from './Card'
+import axios from 'axios'
 
 function Fruits(){
+    
+    const [fruits,setFruits] = useState([]);
+
+    useEffect(() => {
+        getFruits();
+    }, []);
+    function getFruits(){
+        axios.get('http://localhost/farmersHub/fruits.php').then(function(response){
+            console.log(response.data);
+            setFruits(response.data);
+        });
+    }
+
     return(
         <section>
         <Produce/>
         <div className="productField container-fluid">
         {/* <!--Start of Fruits Gallery--> */}
-            <div className="row g-2 m-1 d-flex justify-content-center">
-                <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                    <div className="inner">
-                        <img src={atis} alt="atis" className="card-img-top itemImage"/>
-                    </div>
-                    <div className="card-body  text-center">
-                        <p className="h6 fw-bold card-title" id="atis">Atis</p>
-                        <p className="h6 fw-bold">per kg</p>
-                        <p className="card-text" style={{fontSize:'15px'}} id="atisPrice">₱100.00</p>
-                    </div>      
-                    <div className="card-footer d-flex flex-column justify-content-between">
-                        <div className="input-group input-group-sm input-group-sm mb-3 align-center  mt-auto d-flex">
-                            <span className="input-group-text" onclick="Atis.value = decQuantity(Atis)">-</span>
-                            <input type="number" id="Atis"  className="form-control text-center bg-white" min="0" placeholder="1" value="1"/>
-                            <span className="input-group-text" onclick="Atis.value = incQuantity(Atis)">+</span>
-                        </div><br/>     
-                        <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}} onclick="addToCart(atis, Atis.value, atisPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                    </div>  
-                </div>
-                <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                    <div className="inner">
-                        <img src={avocado} alt="avocado" className="card-img-top"/>
-                    </div>
-                    <div className="card-body  text-center">
-                        <p className="h6 fw-bold card-title" id="avocado">Avocado</p>
-                        <p className="h6 fw-bold">per kg</p>
-                        <p className="card-text" style={{fontSize:'15px'}} id="avocadoPrice">₱65.00</p>
-                    </div>  
-                    <div className="card-footer d-flex flex-column justify-content-between">
-                        <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                            <span className="input-group-text" onclick="Avocado.value = decQuantity(Avocado)">-</span>
-                            <input type="text" id="Avocado"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                            <span className="input-group-text" onclick="Avocado.value = incQuantity(Avocado)">+</span>
-                        </div><br/>     
-                        <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}} onclick="addToCart(avocado, Avocado.value, avocadoPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                    </div>     
-                </div>       
-                <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                    <div className="inner">
-                        <img src={lacatan} alt="lacatan" className="card-img-top"/>
-                    </div>
-                    <div className="card-body  text-center">
-                        <p className="h6 fw-bold card-title" id="lacatan">Banana Lacatan</p>
-                        <p className="h6 fw-bold">per bundle</p>
-                        <p className="card-text" style={{fontSize:'15px'}} id="lacatanPrice">₱175.00</p>
-                    </div>
-                    <div className="card-footer d-flex flex-column justify-content-between">
-                        <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                            <span className="input-group-text" onclick="Lacatan.value = decQuantity(Lacatan)">-</span>
-                            <input type="number" id="Lacatan"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                            <span className="input-group-text" onclick="Lacatan.value = incQuantity(Lacatan)">+</span>
-                        </div><br/>     
-                        <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(lacatan, Lacatan.value, lacatanPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                    </div>    
-                </div>       
-                <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                    <div className="inner">
-                        <img src={latundan} alt="latundan" className="card-img-top"/>
-                    </div>
-                    <div className="card-body  text-center">
-                        <p className="h6 fw-bold card-title" id="latundan">Banana Latundan</p>
-                        <p className="h6 fw-bold">per kg</p>
-                        <p className="card-text" style={{fontSize:'15px'}} id="latundanPrice">₱30.00</p>
-                    </div>
-                    <div className="card-footer d-flex flex-column justify-content-between">
-                        <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                            <span className="input-group-text" onclick="Latundan.value = decQuantity(Latundan)">-</span>
-                            <input type="number" id="Latundan"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                            <span className="input-group-text" onclick="Latundan.value = incQuantity(Latundan)">+</span>
-                        </div><br/>     
-                        <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(latundan, Latundan.value, latundanPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                    </div>
-                </div>   
-            </div>
-
+        <center>
+        {fruits.map((val)=>{
+            return(
+                <Row key={val.fruits_id} className="g-2 m-1 d-inline-flex justify-content-center">
+                    <Col><Card img={atis} alt={val.fruits_title} title={val.fruits_title} text={val.fruits_text}  Price={val.fruits_price}/></Col>
+                </Row>
+            )
+        })}
+        <Row className="g-2 m-1 d-inline-flex justify-content-center">
+            <Col><Card img={atis} alt={"atis"} id={"atis"} title={"Atis"} text={"per kg"} priceID={"atisPrice"} Price={"₱67.00"} qtyId={"atisQTY"}/></Col>
+            <Col><Card img={avocado} alt={"avocado"} id={"avocado"} title={"Avocado"} text={"per kg"} priceID={"avocadoPrice"} Price={"₱65.00"} qtyId={"avocadoQTY"}/></Col>
+            <Col><Card img={lacatan} alt={"lacatan"} id={"lacatan"} title={"Banana Lacatan"} text={"per bundle"} priceID={"lacatanPrice"} Price={"₱70.50"} qtyId={"lacatanQTY"}/></Col>
+            <Col><Card img={latundan} alt={"latundan"} id={"latundan"} title={"Banana Latundan"} text={"per kg"} priceID={"latundanPrice"} Price={"₱30.00"} qtyId={"latundanQTY"}/></Col>
+        </Row>   
         {/* <!--Start of 2nd row of products gallery--> */}
-        <div className="row g-2 m-1 justify-content-center">
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={senyorita} alt="senyorita" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="senorita">Banana Senorita</p>
-                    <p className="h6 fw-bold">per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="senoritaPrice">₱30.00</p>
-                </div>      
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm input-group-sm mb-3 align-center  mt-auto d-flex">
-                        <span className="input-group-text" onclick="Senorita.value = decQuantity(Senorita)">-</span>
-                        <input type="number" id="Senorita"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Senorita.value = incQuantity(Senorita)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(senorita, Senorita.value, senoritaPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>  
-            </div>
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={buko} alt="buko" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="buko">Buko</p>
-                    <p className="h6 fw-bold">per pc</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="bukoPrice">₱35.00</p>
-                </div>  
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                        <span className="input-group-text" onclick="Buko.value = decQuantity(Buko)">-</span>
-                        <input type="text" id="Buko"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Buko.value = incQuantity(Buko)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(buko, Buko.value, bukoPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>     
-            </div>       
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={calamansi} alt="calamansi" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="calamansi">Calamansi</p>
-                    <p className="h6 fw-bold"> per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="calamansiPrice">₱65.00</p>
-                </div>
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                        <span className="input-group-text" onclick="Calamansi.value = decQuantity(Calamansi)">-</span>
-                        <input type="number" id="Calamansi"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Calamansi.value = incQuantity(Calamansi)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(calamansi, Calamansi.value, calamansiPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>    
-            </div>       
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={chico} alt="chico" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="chico">Chico</p>
-                    <p className="h6 fw-bold"> per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="chicoPrice">₱53.00</p>
-                </div>
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                        <span className="input-group-text" onclick="Chico.value = decQuantity(Chico)">-</span>
-                        <input type="text" id="Chico"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Chico.value = incQuantity(Chico)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(chico, Chico.value, chicoPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>
-            </div>   
-        </div>
+        <Row className="g-2 m-1 d-inline-flex justify-content-center">
+            <Col><Card img={senyorita} alt={"senyorita"} id={"senyorita"} title={"Banana Senorita"} text={"per kg"} priceID={"senyoritaPrice"} Price={"₱30.00"} qtyId={"senyoritaQTY"}/></Col>
+            <Col><Card img={buko} alt={"buko"} id={"buko"} title={"Buko"} text={"per pc"} priceID={"bukoPrice"} Price={"₱35.00"} qtyId={"bukoQTY"}/></Col>
+            <Col><Card img={calamansi} alt={"calamansi"} id={"calamansi"} title={"Calamansi"} text={"per kg"} priceID={"calamansiPrice"} Price={"₱65.00"} qtyId={"calamansiQTY"}/></Col>
+            <Col><Card img={chico} alt={"chico"} id={"chico"} title={"Chico"} text={"per kg"} priceID={"chicoPrice"} Price={"₱53.00"} qtyId={"chicoQTY"}/></Col>
+        </Row> 
         {/* <!--Start of 3rd row of Products Gallery--> */}
-        <div className="row g-2 m-1 justify-content-center">
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={corn} alt="corn" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="corn">Corn</p>
-                    <p className="h6 fw-bold"> per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="cornPrice">₱20.00</p>
-                </div>      
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm input-group-sm mb-3 align-center  mt-auto d-flex">
-                        <span className="input-group-text" onclick="Corn.value = decQuantity(Corn)">-</span>
-                        <input type="number" id="Corn"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Corn.value = incQuantity(Corn)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}} onclick="addToCart(corn, Corn.value, cornPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>  
-            </div>
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={pipino} alt="pipino" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="cucumber">Cucumber</p>
-                    <p className="h6 fw-bold"> per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="cucumberPrice">₱50.00</p>
-                </div>  
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                        <span className="input-group-text" onclick="Cucumber.value = decQuantity(Cucumber)">-</span>
-                        <input type="text" id="Cucumber"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Cucumber.value = incQuantity(Cucumber)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(cucumber, Cucumber.value, cucumberPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>     
-            </div>       
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={dalandan} alt="dalandan" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="dalandan">Dalandan</p>
-                    <p className="h6 fw-bold"> per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="dalandanPrice">₱45.00</p>
-                </div>
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                        <span className="input-group-text" onclick="Dalandan.value = decQuantity(Dalandan)">-</span>
-                        <input type="number" id="Dalandan"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Dalandan.value = incQuantity(Dalandan)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}}onclick="addToCart(dalandan, Dalandan.value, dalandanPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>    
-            </div>       
-            <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
-                <div className="inner">
-                    <img src={dragon} alt="dragon" className="card-img-top"/>
-                </div>
-                <div className="card-body  text-center">
-                    <p className="h6 fw-bold card-title" id="dragon">Dragon fruit</p>
-                    <p className="h6 fw-bold"> per kg</p>
-                    <p className="card-text" style={{fontSize:'15px'}} id="dragonPrice">₱100.00</p>
-                </div>
-                <div className="card-footer d-flex flex-column justify-content-between">
-                    <div className="input-group input-group-sm mb-3 align-center  mt-auto">
-                        <span className="input-group-text" onclick="Dragon.value = decQuantity(Dragon)">-</span>
-                        <input type="text" id="Dragon"  className="form-control text-center bg-white" value="1" min="0" placeholder="1"/>
-                        <span className="input-group-text" onclick="Dragon.value = incQuantity(Dragon)">+</span>
-                    </div><br/>     
-                    <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}} onclick="addToCart(dragon, Dragon.value, dragonPrice);"><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
-                </div>
-            </div>   
-        </div>
+        <Row className="g-2 m-1 d-inline-flex justify-content-center">
+            <Col><Card img={corn} alt={"corn"} id={"corn"} title={"Corn"} text={"per kg"} priceID={"cornPrice"} Price={"₱20.00"} qtyId={"cornQTY"}/></Col>
+            <Col><Card img={pipino} alt={"pipino"} id={"cucumber"} title={"Cucumber"} text={"per kg"} priceID={"cucumberPrice"} Price={"₱50.00"} qtyId={"cucumberQTY"}/></Col>
+            <Col><Card img={dalandan} alt={"dalandan"} id={"dalandan"} title={"Dalandan"} text={"per kg"} priceID={"dalandanPrice"} Price={"₱45.00"} qtyId={"dalandanQTY"}/></Col>
+            <Col><Card img={dragon} alt={"dragon"} id={"dragon"} title={"Dragon fruit"} text={"per kg"} priceID={"dragonPrice"} Price={"₱85.00"} qtyId={"dragonQTY"}/></Col>
+        </Row> 
+        </center>
         </div>
         {/* <!--End of Fruits Gallery--> */}
 
