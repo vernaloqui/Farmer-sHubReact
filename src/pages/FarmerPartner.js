@@ -1,7 +1,82 @@
+import React, { useState }  from "react";
+import { propTypes } from "react-bootstrap/esm/Image";
+import { auth, db, storage } from "../config/Config";
+import { Link } from "react-router-dom";
+
+
 function FarmerPartner(){
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [fName, setFName] = useState('');
+    const [middle, setMiddle] = useState('');
+    const [lName, setLName] = useState('');
+    const [IDcard, setIDcard] = useState(null);
+    const [storeName, setStoreName] = useState('');
+    // const [itemList, setItemList] = useState([]);
+    const [error, setError] = useState('');
+
+    const types = ['image/png', 'image/jpeg', 'image/jpg'];
+
+    const IDHandler = (e) => {
+        let selectedFile = e.target.files[0];
+        if(selectedFile && types.includes(selectedFile.type)){
+            setIDcard(selectedFile);
+            setError('');
+        }
+        else{
+            setIDcard(null);
+            setError('Please select a valid image type png, jpg or jpeg');
+        }
+    }
+
+    const uploadID = (e) =>{
+        
+        const uploadTask = storage.ref(`img/${IDcard.name}`).put(IDcard);
+        uploadTask.on('state_changed', snapshot =>{
+            const progress =(snapshot.bytesTransferred/snapshot.totalBytes) *100;
+            console.log(progress);
+        }, err =>{
+            setError(err.message)
+        }, () =>{
+            storage.ref('img').child(IDcard.name).getDownloadURL().then(url => {
+                db.collection('Sellers').add({
+                    IDcard: url
+                }).then(()=>{
+                    setIDcard('');
+                    document.getElementById('idCard').value = '';
+                }).catch(err => setError(err.message));
+            })
+        })
+    }
+
+    const SellerSignup = (e) =>{
+        e.preventDefault();
+        console.log('form submitted');
+        console.log(email, password, fName, middle, lName, storeName);
+        uploadID();
+        auth.createUserWithEmailAndPassword(email, password).then((cred)=>{
+            db.collection('Sellers').doc(cred.user.uid).set({
+                email: email,
+                password: password,
+                fName: fName,
+                lName: lName,
+                middle: middle,
+                storeName: storeName
+            }).then(()=>{
+                setEmail('');
+                setPassword('');
+                setFName('');
+                setMiddle('');
+                setLName('');
+                setStoreName('');
+                setError('');
+                propTypes.history.push('/login');
+            }).catch(err=>setError(err.message));
+        }).catch(err=>setError(err.message));
+    }
     return(
         <section className="container mt-5">
-            <form className="container border border-secondary rounded p-4">
+            <form autoComplete="off" className="container border border-secondary rounded p-4 form-group" onSubmit={SellerSignup}>
                 <div className="accordion accordion-flush" id="RegisterAccount">
                     {/* <!--Log in Info--> */}
                     <div className="accordion-item">
@@ -23,13 +98,13 @@ function FarmerPartner(){
                                 <div className="accordion-body text-justify">
                                     <div className="input-group mb-3">
                                         <span className="input-group-text" >Email address:</span>
-                                        <input type="email" name="email" id="email" className="form-control"/>
+                                        <input type="email" name="email" id="email" className="form-control" onChange={(e)=>setEmail(e.target.value)} value={email}/>
                                     </div><br/>
                                     <div className="input-group mb-3">
-                                        <label for="password" className="input-group-text">Password:</label>
-                                        <input type="password" className="form-control" id="password"/>
-                                        <label for="password" className="input-group-text">Confirm Password:</label>
-                                        <input type="password" className="form-control" id="confirmpassword"/>
+                                        <label htmlFor="password" className="input-group-text">Password:</label>
+                                        <input type="password" className="form-control" id="password" onChange={(e) =>setPassword(e.target.value)} value={password}/>
+                                        {/* <label htmlFor="password" className="input-group-text">Confirm Password:</label>
+                                        <input type="password" className="form-control" id="confirmpassword"/> */}
                                     </div><br/>
                                 </div>
                         </div>
@@ -54,50 +129,50 @@ function FarmerPartner(){
                                 <div className="accordion-body text-justify">
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">First Name:</span>
-                                        <input type="text" className="form-control" id="fName"/>
+                                        <input type="text" className="form-control" id="fName" onChange={(e)=>setFName(e.target.value)} value={fName}/>
                                         <span className="input-group-text">Middle Initial:</span>
-                                        <input type="text" className="form-control" id="mName"/>
+                                        <input type="text" className="form-control" id="mName" onChange={(e)=> setMiddle(e.target.value)} value={middle}/>
                                         <span className="input-group-text">Last Name:</span>
-                                        <input type="text" className="form-control" id="lName"/>
+                                        <input type="text" className="form-control" id="lName" onChange={(e)=>setLName(e.target.value)} value={lName}/>
                                     </div><br/>
-                                    <div className="input-group mb-3">
-                                        <label for="dob" className="input-group-text">Date of Birth:</label>
+                                    {/* <div className="input-group mb-3">
+                                        <label htmlFor="dob" className="input-group-text">Date of Birth:</label>
                                         <input type="date" className="form-control" id="dob"/>
-                                        <label for="phoneNum" className="input-group-text">Cellphone number:</label>
-                                        <input type="tel" className="form-control" id="phoneNum" placeholder="09XXXXXXXXX" maxlength="11" minlength="11"/>
-                                    </div><br/>
+                                        <label htmlFor="phoneNum" className="input-group-text">Cellphone number:</label>
+                                        <input type="tel" className="form-control" id="phoneNum" placeholder="09XXXXXXXXX" maxLength="11" minLength="11"/>
+                                    </div><br/> */}
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">Upload ID card:</span>
-                                        <input type="file" className="form-control" id="idCard"/>
+                                        <input type="file" className="form-control" id="idCard" onChange={IDHandler}/>
                                     </div>
                                         <p style={{fontSize: '12px'}}>Max of 5MB with jpg, jpeg, pdf, png file types only</p>
                                     
-                                        <div className="border-top">
+                                        {/* <div className="border-top">
                                             <p className="fw-bold" style={{fontSize: '15px'}}>Address</p>
                                         </div>
                                         <div className="input-group mb-3">
-                                            <label for="Address1" className="input-group-text">House Number:</label>
+                                            <label htmlFor="Address1" className="input-group-text">House Number:</label>
                                                 <input type="text" className="form-control" id="Address1" required/>
-                                                <label for="Address2" className="input-group-text">Street:</label>
+                                                <label htmlFor="Address2" className="input-group-text">Street:</label>
                                                 <input type="text" className="form-control" id="Address2" required/> 
                                         </div><br/>
                                         <div className="input-group mb-3">
-                                            <label for="Barangay" className="input-group-text">Barangay:</label>
+                                            <label htmlFor="Barangay" className="input-group-text">Barangay:</label>
                                             <input type="text" className="form-control" id="Barangay"/>
-                                            <label for="municipality" className="input-group-text">Municipality</label>
+                                            <label htmlFor="municipality" className="input-group-text">Municipality</label>
                                             <input type="text" className="form-control" id="municipality"/>
                                         </div><br/>
                                         <div className="input-group mb-3">
-                                            <label for="province" className="input-group-text">Province:</label>
+                                            <label htmlFor="province" className="input-group-text">Province:</label>
                                             <input type="text" className="form-control" id="province"/>
-                                            <label for="zipCode" className="input-group-text">Postal Code:</label>
+                                            <label htmlFor="zipCode" className="input-group-text">Postal Code:</label>
                                             <input type="number" className="form-control" name="zipCode" id="zipCode"/> 
-                                        </div><br/>
+                                        </div><br/> */}
                                 </div>
                         </div>
                     </div>
                     {/* <!--Billing Info--> */}
-                    <div className="accordion-item">
+                    {/* <div className="accordion-item">
                         <h2 className="accordion-header" id="BillingHeading">
                             <button className="accordion-button fw-bold collapsed" 
                                     type="button"
@@ -117,18 +192,18 @@ function FarmerPartner(){
                                 <div className="accordion-body text-justify">
                                     <div className="form-check">
                                         <input className="form-check-input" type="radio" name="Payment" id="card"/>
-                                        <label className="form-check-label" for="card">Card
+                                        <label className="form-check-label" htmlFor="card">Card
                                         </label>
                                     </div>
                                     <div className="form-check">
                                         <input className="form-check-input" type="radio" name="Payment" id="Gcash"/>
-                                        <label className="form-check-label" for="Gcash">Gcash
+                                        <label className="form-check-label" htmlFor="Gcash">Gcash
                                         </label>
                                     </div>
                                     
                                     <div className="form-check">
                                         <input className="form-check-input" type="radio" name="Payment" id="maya"/>
-                                        <label className="form-check-label" for="maya">Maya
+                                        <label className="form-check-label" htmlFor="maya">Maya
                                         </label>
                                     </div>
                                     
@@ -136,19 +211,19 @@ function FarmerPartner(){
                                     <br/>
                                     <div className="input-group mb-3">
                                         <span className="input-group-text" id="EmailUser">Credit card number:</span>
-                                        <input type="number" name="CCnum" id="CCnum" className="form-control" minlength="16" maxlength="16"/>
+                                        <input type="number" name="CCnum" id="CCnum" className="form-control" minLength="16" maxLength="16"/>
                                     </div><br/>
                                     <div className="input-group mb-3">
-                                        <label for="CCname" className="input-group-text">Cardholder's name:</label>
+                                        <label htmlFor="CCname" className="input-group-text">Cardholder's name:</label>
                                         <input type="text" className="form-control" id="CCname"/>
                                     </div><br/>
                                     <div className="input-group mb-3">
-                                        <label for="expDate" className="input-group-text">Expires on:</label>
+                                        <label htmlFor="expDate" className="input-group-text">Expires on:</label>
                                         <input type="month" className="form-control" id="expDate"/>
                                     </div><br/>
                                 </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* <!--Store Info--> */}
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="StoreHeading">
@@ -173,18 +248,18 @@ function FarmerPartner(){
                                     
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">Store name:</span>
-                                        <input type="text" name="storeName" id="storeName" className="form-control"/>
+                                        <input type="text" name="storeName" id="storeName" className="form-control" onChange={(e)=>setStoreName(e.target.value)} value={storeName}/>
                                     </div><br/>
-                                    <p style={{fontSize: '12px'}}>Please select the category/ies of products you want to sell.</p>
+                                    {/* <p style={{fontSize: '12px'}}>Please select the category/ies of products you want to sell.</p>
                                     <div className="form-check">
                                         <input type="checkbox" className="form-check-input" id="fruits" value="fruits"/>
-                                        <label className="form-check-label" for="fruits">  Fruits</label><br/>
+                                        <label className="form-check-label" htmlFor="fruits">  Fruits</label><br/>
                                         <input type="checkbox" className="form-check-input" id="veges" value="veges"/>
-                                        <label className="form-check-label" for="veges">Vegetables</label><br/>
+                                        <label className="form-check-label" htmlFor="veges">Vegetables</label><br/>
                                         <input type="checkbox" className="form-check-input" id="Spices" value="spices"/>
-                                        <label className="form-check-label" for="spices">Spices</label><br/>
+                                        <label className="form-check-label" htmlFor="spices">Spices</label><br/>
                                         
-                                    </div>
+                                    </div> */}
                                 </div>
                         </div>
                     </div>
@@ -195,17 +270,22 @@ function FarmerPartner(){
                 
                 <div className="form-check">
                     <input type="checkbox" className="form-check-input" id="tandC"/>
-                    <label className="form-check-label" for="tandC">I agree with the <a href="./Login">Terms and Conditions</a>.</label>
+                    <label className="form-check-label" htmlFor="tandC">I agree with the <a href="./Login">Terms and Conditions</a>.</label>
                 </div>
                 <div className="form-check">
                     <input type="checkbox" className="form-check-input" id="privacy"/>
-                    <label className="form-check-label" for="privacy">I agree with the <a href="./Login">Privacy Policy</a>.</label>
+                    <label className="form-check-label" htmlFor="privacy">I agree with the <a href="./Login">Privacy Policy</a>.</label>
                 </div>
                 <br/>
-                <button type="submit" className="btn text-capitalize" style={{backgroundColor: '#A2DBB7', borderRadius: '5px', boxShadow: '5px', color: 'grey'}} onclick="RegisterPartner();">Register Account</button><br/><br/>
+                <button type="submit" className="btn text-capitalize" style={{backgroundColor: '#A2DBB7', borderRadius: '5px', boxShadow: '5px', color: 'grey'}} >Register Account</button><br/><br/>
                 <a href="Login.html"><button type="button" className="btn btn-link text-muted" style={{textDecoration:'none'}}>Already have an account? Log in here.</button></a>
                 
             </form>
+            {error && <div className="error-msg">{error}</div>}
+            <br/>
+            <span>Already have an account? Login 
+                <Link to="/login">Here</Link>
+            </span>
         </section>
     )
 }

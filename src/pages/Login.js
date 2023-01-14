@@ -1,54 +1,24 @@
-import { useEffect , useState} from 'react';
-import axios from 'axios';
+import { useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import {auth} from '../config/Config';
 
-function Login(){
-    const [email, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [db, setDb] = useState([]);
-    const navigate = useNavigate();
+function Login(props){
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    let navigate = useNavigate();
 
-    useEffect(() => {
-        const url = 'http://localhost/farmers_db/db.php'
-        axios.get(url).then((response) =>{
-            setDb(response.data);
-            db.map((val)=>{
-                return(
-                    console.log(val.email)
-                )
-            })
-        })
-    },[])
-    const submitBtn = function (e){
+    const login = (e) =>{
+        
         e.preventDefault();
-        console.log(document.getElementById("email").value);
-        console.log(document.getElementById("password").value);
-    
-        let getData = new FormData();
-        axios({
-            method: 'POST', //get / post
-            url:    'http://localhost/farmers_db/db.php', //db link
-            data: getData,
-            config: 'Content-Type="multipart/form-control"'  //data to be transferred
-        }).then(function(){
-            const url = 'http://localhost/farmers_db/db.php'
-            axios.get(url).then((response) =>{
-                setDb(response.data);
-                db.map((val)=>{
-                    if ((val.email) === (document.getElementById('email').value) && (val.pass) === (document.getElementById('password').value)) {
-                        return(
-                            alert ("Successfully Logged in"),
-                            navigate('/')
-                        )
-                    } 
-                         
-                })
-            }) 
-        })
+        auth.signInWithEmailAndPassword(email, password).then(() =>{
+            setEmail('');
+            setPassword('');
+            setError('');
+            navigate('/veggies');
+        }).catch(err => setError(err.message));
     }
-    
-
-    
+       
     return (
         
     <section className="container mt-2 w-25">
@@ -65,7 +35,7 @@ function Login(){
         <br/>
 
         <div className="mb-3">
-        <form className="logIn container border border-secondary rounded p-4" name="ValidForm" action="" 
+        <form className="logIn container border border-secondary rounded p-4" onSubmit={login}
             style={{
                     padding: "5rem 2.5rem",
                     borderRadius: "1rem",
@@ -83,7 +53,7 @@ function Login(){
 
             <label htmlFor="uname" className="form-label">Email address</label>
             <input type="text" name='email' id='email' className="form-control" placeholder="example@gmail.com" 
-                   value={email} onChange={(e) => setUsername(e.target.value)} />
+                   value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <br/>
 
@@ -100,13 +70,14 @@ function Login(){
             <br/>
 
             <input type="submit" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', 
-            boxShadow:'5px 5px grey'}} value="Login" onClick={submitBtn}/>
+            boxShadow:'5px 5px grey'}} value="Login"/>
 
             <button type="button" className="btn btn-link text-muted" style={{textDecoration:'none', marginLeft: '80%'}} 
             data-bs-toggle="modal" data-bs-target="#forgotPw">Forgot password</button>
             
             {/* </div> */}
         </form>
+        {error && <span className="error-msg">{error}</span>}
         </div>
 
         {/* <!--Modal--> */}
@@ -143,6 +114,7 @@ function Login(){
 
                 </div>
                 </form>
+                
 
                 {/* <!--End of modal footer--> */}
                 </div>
