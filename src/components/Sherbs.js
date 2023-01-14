@@ -1,67 +1,109 @@
 import React, {useState, useEffect} from 'react';
-import Produce from '../pages/Combined'
-import basil from '../img/basil.png'
-import chives from '../img/chives.png'
-import cilantro from '../img/cilantro.png'
-import laurel from '../img/laurel.png'
-import himalayan from '../img/himalayan.png'
-import mint from '../img/mint.png'
-import honey from '../img/honey.png'
-import seasalt from '../img/roack sesalt.png'
-import star from '../img/star.png'
-import salay from '../img/salay.png'
-import turmeric from '../img/turmeric.png'
-import pepper from '../img/pepp.png'
+import { auth, db } from '../config/Config';
 import {Col,Row} from 'react-bootstrap';
-import Card from './Card'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 
 function SHerbs(){
     const [sherbs,setSherbs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const history = useNavigate();
+    let Product;
 
-    useEffect(() => {
+    function GetUserUid(){
+        const [uid, setUid] = useState(null);
+        useEffect(()=>{
+            auth.onAuthStateChanged(user =>{
+                if(user){
+                    setUid(user.uid);
+                }
+            })
+        }, [uid, setUid])
+        return uid;
+    }
+
+    const uid = GetUserUid();
+
+
+    const getSherbs = async ()=>{
+        const sherbs = await db.collection('SHerbs').get();
+        const sherbsArray = [];
+        for (var snap of sherbs.docs){
+            var data =snap.data();
+            data.ID = snap.id;
+            sherbsArray.push({...data
+            })
+            if(sherbsArray.length === sherbs.docs.length){
+                setSherbs(sherbsArray); 
+                setLoading(false);
+            }
+        }
+    }
+
+    useEffect(()=>{
         getSherbs();
-    }, []);
-    function getSherbs(){
-        axios.get('http://localhost/farmersHub/sherbs.php').then(function(response){
-            console.log(response.data);
-            setSherbs(response.data);
-        });
+    }, [])
+
+    if (loading){
+        return <p>loading firebase data...</p>;
+    }
+
+    const addToCart =(product) =>{
+        if(uid !== null){
+            console.log(uid);
+            console.log(product);
+            Product=product;
+            Product['Subtotal']=Product.qty * Product.price;
+            db.collection(`'Cart' + ${uid}`).doc(Product.id).set(Product)
+            .then(()=>{
+                console.log('successfully added to cart');
+            })
+            .catch((error)=>{
+                console.error("Error writing document: ", error);
+            });
+        }
+        else{
+            history("/login");
+        }
     }
 
     return(
         <section>
-        <Produce/>
+        {/* <Produce/> */}
         <div className="productField container-fluid">
         {/* <!--Start of Spices Gallery--> */}
         <center>
-        {sherbs.map((val)=>{
+        {sherbs.map((val, index)=>{
             return(
-                <Row key={val.sherbs_id} className="g-2 m-1 d-inline-flex justify-content-center">
-                    <Col><Card img={basil} alt={val.sherbs_title} title={val.sherbs_title} text={val.sherbs_text} Price={val.sherbs_price}/></Col>
-                </Row>
+                
+                <Row key={index} className="g-2 m-1 d-inline-flex justify-content-center">
+                        
+                <Col>
+                <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
+                    <div className="inner">
+                        <img src={val.img} alt={val.title} className="card-img" style={{borderRadius: '1rem'}}/> 
+                    </div>
+                    
+                    <div className="card-body text-center">   
+                        <h5 className="card-title fw-bold text-center" name="item_name">{val.title}</h5>
+                        <p className="card-text">{val.text}</p>
+                        <p name="unit_price">₱{val.price}</p>
+                    </div>
+                    <div className="card-footer d-flex flex-column justify-content-between">
+                        <div className="input-group mb-3 align-center  mt-auto"  >
+                            {/* <span className="input-group-text" onClick={() => decQuantity(val.qty)}>-</span> */}
+                            <div className="form-control text-center" name="quantity" defaultValue={val.qty}>{val.qty}</div>
+                            {/* ?<span className="input-group-text" onClick={() => incQuantity(val.qty)}>+</span> */}
+                        </div><br/>     
+                        <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}} onClick={() => addToCart(val)}> <i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
+                        {/* onClick={dispatch({type: 'Add', id: fruits.id, fruits })} */}
+                    </div>            
+                </div>
+                </Col>
+            </Row>
             )
         })}
-        <Row className="g-2 m-1 d-inline-flex justify-content-center">
-            <Col><Card img={basil} alt={"basil"} id={"basil"} title={"Basil"} text={"per 250g"} priceID={"basilPrice"} Price={"₱27.50"} qtyId={"basilQTY"}/></Col>
-            <Col><Card img={chives} alt={"chives"} id={"chives"} title={"Chives"} text={"per 50g"} priceID={"chivesPrice"} Price={"₱32.00"} qtyId={"chivesQTY"}/></Col>
-            <Col><Card img={cilantro} alt={"cilantro"} id={"cilantro"} title={"Cilantro"} text={"per 50g"} priceID={"cilantroPrice"} Price={"₱45.00"} qtyId={"cilantroQTY"}/></Col>
-            <Col><Card img={laurel} alt={"laurel"} id={"laurel"} title={"Laurel"} text={"per pack"} priceID={"laurelPrice"} Price={"₱15.00"} qtyId={"laurelQTY"}/></Col>
-        </Row>   
-        {/* <!--Start of 2nd row of products gallery--> */}
-        <Row className="g-2 m-1 d-inline-flex justify-content-center">
-            <Col><Card img={himalayan} alt={"himalayan"} id={"himalayan"} title={"Himalayan Salt"} text={"per 200g"} priceID={"himalayanPrice"} Price={"₱225.00"} qtyId={"himalayanQTY"}/></Col>
-            <Col><Card img={mint} alt={"mint"} id={"mint"} title={"Mint leaves"} text={"per 50g"} priceID={"mintPrice"} Price={"₱35.00"} qtyId={"mintQTY"}/></Col>
-            <Col><Card img={honey} alt={"honey"} id={"honey"} title={"Pure Honey"} text={"per 1L bottle"} priceID={"honeyPrice"} Price={"₱250.00"} qtyId={"honeyQTY"}/></Col>
-            <Col><Card img={seasalt} alt={"seasalt"} id={"seasalt"} title={"Sea Salt"} text={"per kg"} priceID={"seasaltPrice"} Price={"₱65.00"} qtyId={"seasaltQTY"}/></Col>
-        </Row>
-        {/* <!--Start of 3rd row of Products Gallery--> */}
-        <Row className="g-2 m-1 d-inline-flex justify-content-center">
-            <Col><Card img={star} alt={"anise"} id={"Anise"} title={"Star Anise"} text={"per 50g"} priceID={"anisePrice"} Price={"₱35.00"} qtyId={"aniseQTY"}/></Col>
-            <Col><Card img={salay} alt={"salay"} id={"salay"} title={"Tanglad"} text={"per 50g"} priceID={"salayPrice"} Price={"₱12.00"} qtyId={"salayQTY"}/></Col>
-            <Col><Card img={turmeric} alt={"turmeric"} id={"turmeric"} title={"Turmeric Powder"} text={"per 50g"} priceID={"turmericPrice"} Price={"₱49.00"} qtyId={"turmericQTY"}/></Col>
-            <Col><Card img={pepper} alt={"pepper"} id={"pepper"} title={"Pamintang Buo"} text={"per 500g"} priceID={"pepperPrice"} Price={"₱65.00"} qtyId={"pepperQTY"}/></Col>
-        </Row>
+        
         </center> 
         </div>
         {/* <!--End of Spices Gallery--> */}

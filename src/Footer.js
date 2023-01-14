@@ -41,7 +41,7 @@ function Footer(){
 
                 <div className="col-md-2">
                 <h6 className="text-uppercase fw-bold">
-                    <Link to="/sellerCenter" style={{color:'#073418'}}>Seller Center</Link>
+                    <Link to="/sellerLogin" style={{color:'#073418'}}>Seller Center</Link>
                 </h6>
                 </div>
             </div>

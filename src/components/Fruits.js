@@ -1,68 +1,109 @@
 import React, {useState, useEffect} from 'react';
-import Produce from '../pages/Combined';
-import atis from '../img/atis.jpg';
-import avocado from '../img/avocado.png';
-import lacatan from '../img/banana.png';
-import latundan from '../img/latundan.png';
-import senyorita from '../img/senyorita.png';
-import buko from '../img/buko.png';
-import calamansi from '../img/calamansi.png'
-import chico from '../img/chico.png';
-import corn from '../img/corn.png'
-import pipino from '../img/pipino.png'
-import dalandan from '../img/dandan.png'
-import dragon from '../img/dragon.png'
+import { auth, db } from '../config/Config';
 import {Col,Row} from 'react-bootstrap';
-import Card from './Card'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 
 function Fruits(){
     
     const [fruits,setFruits] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const history = useNavigate();
+    let Product;
 
-    useEffect(() => {
+    function GetUserUid(){
+        const [uid, setUid] = useState(null);
+        useEffect(()=>{
+            auth.onAuthStateChanged(user =>{
+                if(user){
+                    setUid(user.uid);
+                }
+            })
+        }, [uid, setUid])
+        return uid;
+    }
+
+    const uid = GetUserUid();
+
+    const getFruits = async ()=>{
+        const fruits = await db.collection('Fruits').get();
+        const fruitsArray = [];
+        for (var snap of fruits.docs){
+            var data =snap.data();
+            data.ID = snap.id;
+            fruitsArray.push({...data
+            })
+            if(fruitsArray.length === fruits.docs.length){
+                setFruits(fruitsArray); 
+                setLoading(false);
+            }
+        }
+    }
+
+    useEffect(()=>{
         getFruits();
-    }, []);
-    function getFruits(){
-        axios.get('http://localhost/farmersHub/fruits.php').then(function(response){
-            console.log(response.data);
-            setFruits(response.data);
-        });
+    }, [])
+
+
+    if (loading){
+        return <p>loading firebase data...</p>;
+    }
+
+    const addToCart =(product) =>{
+        if(uid !== null){
+            console.log(uid);
+            console.log(product);
+            Product=product;
+            Product['Subtotal']=Product.qty * Product.price;
+            db.collection(`'Cart' + ${uid}`).doc(Product.id).set(Product)
+            .then(()=>{
+                console.log('successfully added to cart');
+            })
+            .catch((error)=>{
+                console.error("Error writing document: ", error);
+            });
+        }
+        else{
+            history("/login");
+        }
     }
 
     return(
         <section>
-        <Produce/>
+        {/* <Produce/> */}
         <div className="productField container-fluid">
         {/* <!--Start of Fruits Gallery--> */}
         <center>
-        {fruits.map((val)=>{
+        {fruits.map((val, index)=>{
             return(
-                <Row key={val.fruits_id} className="g-2 m-1 d-inline-flex justify-content-center">
-                    <Col><Card img={atis} alt={val.fruits_title} title={val.fruits_title} text={val.fruits_text}  Price={val.fruits_price}/></Col>
-                </Row>
+                
+                <Row key={index} className="g-2 m-1 d-inline-flex justify-content-center">
+                        
+                        <Col>
+                        <div className="col-12 col-md-6 col-lg-3 ms-1 card shadow">
+                            <div className="inner">
+                                <img src={val.img} alt={val.title} className="card-img" style={{borderRadius: '1rem'}}/> 
+                            </div>
+                            
+                            <div className="card-body text-center">   
+                                <h5 className="card-title fw-bold text-center" name="item_name">{val.title}</h5>
+                                <p className="card-text">{val.text}</p>
+                                <p name="unit_price">₱{val.price}</p>
+                            </div>
+                            <div className="card-footer d-flex flex-column justify-content-between">
+                                <div className="input-group mb-3 align-center  mt-auto"  >
+                                    {/* <span className="input-group-text" onClick={() => decQuantity(val.qty)}>-</span> */}
+                                    <div className="form-control text-center" name="quantity" defaultValue={val.qty}>{val.qty}</div>
+                                    {/* ?<span className="input-group-text" onClick={() => incQuantity(val.qty)}>+</span> */}
+                                </div><br/>     
+                                <button className="btn btn-sm" style={{backgroundColor: '#A2DBB7', borderRadius:'5px', boxShadow:'5px 5px grey'}} onClick={() => addToCart(val)}><i className="bi bi-cart4" style={{fontSize:'20px'}}></i> &nbsp;  Add to Cart</button>
+                                
+                            </div>            
+                        </div>
+                        </Col>
+                    </Row>
             )
         })}
-        <Row className="g-2 m-1 d-inline-flex justify-content-center">
-            <Col><Card img={atis} alt={"atis"} id={"atis"} title={"Atis"} text={"per kg"} priceID={"atisPrice"} Price={"₱67.00"} qtyId={"atisQTY"}/></Col>
-            <Col><Card img={avocado} alt={"avocado"} id={"avocado"} title={"Avocado"} text={"per kg"} priceID={"avocadoPrice"} Price={"₱65.00"} qtyId={"avocadoQTY"}/></Col>
-            <Col><Card img={lacatan} alt={"lacatan"} id={"lacatan"} title={"Banana Lacatan"} text={"per bundle"} priceID={"lacatanPrice"} Price={"₱70.50"} qtyId={"lacatanQTY"}/></Col>
-            <Col><Card img={latundan} alt={"latundan"} id={"latundan"} title={"Banana Latundan"} text={"per kg"} priceID={"latundanPrice"} Price={"₱30.00"} qtyId={"latundanQTY"}/></Col>
-        </Row>   
-        {/* <!--Start of 2nd row of products gallery--> */}
-        <Row className="g-2 m-1 d-inline-flex justify-content-center">
-            <Col><Card img={senyorita} alt={"senyorita"} id={"senyorita"} title={"Banana Senorita"} text={"per kg"} priceID={"senyoritaPrice"} Price={"₱30.00"} qtyId={"senyoritaQTY"}/></Col>
-            <Col><Card img={buko} alt={"buko"} id={"buko"} title={"Buko"} text={"per pc"} priceID={"bukoPrice"} Price={"₱35.00"} qtyId={"bukoQTY"}/></Col>
-            <Col><Card img={calamansi} alt={"calamansi"} id={"calamansi"} title={"Calamansi"} text={"per kg"} priceID={"calamansiPrice"} Price={"₱65.00"} qtyId={"calamansiQTY"}/></Col>
-            <Col><Card img={chico} alt={"chico"} id={"chico"} title={"Chico"} text={"per kg"} priceID={"chicoPrice"} Price={"₱53.00"} qtyId={"chicoQTY"}/></Col>
-        </Row> 
-        {/* <!--Start of 3rd row of Products Gallery--> */}
-        <Row className="g-2 m-1 d-inline-flex justify-content-center">
-            <Col><Card img={corn} alt={"corn"} id={"corn"} title={"Corn"} text={"per kg"} priceID={"cornPrice"} Price={"₱20.00"} qtyId={"cornQTY"}/></Col>
-            <Col><Card img={pipino} alt={"pipino"} id={"cucumber"} title={"Cucumber"} text={"per kg"} priceID={"cucumberPrice"} Price={"₱50.00"} qtyId={"cucumberQTY"}/></Col>
-            <Col><Card img={dalandan} alt={"dalandan"} id={"dalandan"} title={"Dalandan"} text={"per kg"} priceID={"dalandanPrice"} Price={"₱45.00"} qtyId={"dalandanQTY"}/></Col>
-            <Col><Card img={dragon} alt={"dragon"} id={"dragon"} title={"Dragon fruit"} text={"per kg"} priceID={"dragonPrice"} Price={"₱85.00"} qtyId={"dragonQTY"}/></Col>
-        </Row> 
         </center>
         </div>
         {/* <!--End of Fruits Gallery--> */}

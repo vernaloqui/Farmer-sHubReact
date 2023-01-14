@@ -1,72 +1,73 @@
-import { Link } from 'react-router-dom'
+import { useState} from 'react';
 import Banner from '../components/Banner'
 import banner from "../img/fruitsPage.png"
-// import All from '../components/AllProduce'
+import Veggies from '../components/Veggies';
+import Sherbs from '../components/Sherbs';
+import Fruits from '../components/Fruits';
+import BestSellers from '../components/BestSellers';
+
 
 function Produce(){
-    const IndicatorShift = function(e){
-        let currentActive, activeIndex;
-        let indicator = e.target.id;
-        let container = document.querySelector('.indicator');
-        let link = container.children;
-        
-        for (let i = 0; i < link.length; i++) {
-            //check which nav-link is active
-            if (link[i].querySelector('.active')){
-                currentActive = link[i].querySelector('.active');
-                activeIndex = i;
-                currentActive.classList.remove('active');
-            
-            }
-        }
-        //compare current selection with the current active link then change the active one
-        if (indicator !== link[activeIndex].querySelector('.nav-link')){
-            
-            switch(indicator){
-                case "Vegetables":
-                    link[1].querySelector('.nav-link').classList.add("active");
-                break;
-                case "Fruits":
-                    link[2].querySelector('.nav-link').classList.add("active");
-                break;
-                case "Spices and Herbs":
-                    link[3].querySelector('.nav-link').classList.add("active");
-                break;
-                case "Best Sellers":
-                    link[4].querySelector('.nav-link').classList.add("active");
-                break;
-                default:
-                    link[0].querySelector('.nav-link').classList.add("active");
-                break;
-            }
-        }
+    const [showtab, setShowtab] = useState(1);   
+    const handletab = (e) => {
+        setShowtab(e);
     }
-    return(
-        <section>
-            <Banner img={banner}/>
-            <div className="container-fluid">
-                {/* <!--Navbar to the top for Product Categories--> */}
-                <ul className="indicator nav flex-row shadow" style={{backgroundColor:'#A2DBB7'}}>
-                    <li className="nav-item border">
-                        <Link className="nav-link active" id="All" to="/all" style={{color:'#073418'}} onClick={IndicatorShift}>All</Link>
-                    </li>
-                    <li className="nav-item border">
-                        <Link className="nav-link" id="Vegetables" to="/veggies" style={{color:'#073418'}} onClick={IndicatorShift}>Vegetables</Link>
-                    </li>
-                    <li className="nav-item border" >
-                        <Link className="nav-link" id="Fruits" to="/fruits" style={{color:'#073418'}} onClick={IndicatorShift}>Fruits</Link>
-                    </li>
-                    <li className="nav-item border">
-                        <Link className="nav-link" id="SHerbs" to="/sherbs" style={{color:'#073418'}} onClick={IndicatorShift}>Spices and Herbs</Link>
-                    </li>
-                    <li className="nav-item border">
-                        <Link className="nav-link" id="BestSellers" to="/best" style={{color:'#073418'}} onClick={IndicatorShift}>Best Sellers</Link>
-                    </li>
-                </ul>
-            </div>
-            <br></br>
 
-        </section>
-    )
+    const style = {
+        color :'#073418',
+        backgroundColor: '#A2DBB7'
+     }
+     return (
+        
+        <div className='checkout'>
+        
+     
+          <section>
+                <Banner img={banner}/>
+                <div className="container-fluid" >
+                    {/* <!--Navbar to the top for Product Categories--> */}
+                    <ul className="indicator nav flex-row " style={{backgroundColor:'#A2DBB7'}}>
+                        <li className="nav-item border ">
+                            <button className={showtab===1 ?"nav-link active bg-light" : "nav-link " } id="All" to="/all" style={style} onClick={()=>handletab(1)}>All</button>
+                        </li>
+                        <li className="nav-item border">
+                            <button className={showtab===2 ?"nav-link active bg-light" : "nav-link " } id="Vegetables" to="/veggies" style={style} onClick={()=>handletab(2)}>Vegetables</button>
+                        </li>
+                        <li className="nav-item border" >
+                            <button className={showtab===3 ?"nav-link active bg-light" : "nav-link " } id="Fruits" to="/fruits" style={style} onClick={()=>handletab(3)}>Fruits</button>
+                        </li>
+                        <li className="nav-item border">
+                            <button className={showtab===4 ?"nav-link active bg-light" : "nav-link " } id="SHerbs" to="/sherbs" style={style} onClick={()=>handletab(4)}>Spices and Herbs</button>
+                        </li>
+                        <li className="nav-item border">
+                            <button className={showtab===5 ?"nav-link active bg-light" : "nav-link " } id="Best" to="/best" style={style} onClick={()=>handletab(5)}>Best Sellers</button>
+                        </li>
+                    </ul>
+                </div>
+                <br></br>
+                <div className='tab-content '>            
+                    <div className={showtab===1 ? 'tab-pane fade show active' : "tab-pane fade"}>
+                        <Veggies />
+                        <Fruits/>
+                        <Sherbs />
+                 </div>
+                 <div className={ showtab===2 ? 'tab-pane fade show active' : "tab-pane fade"}>
+                    <Veggies />
+                 </div>                 
+                 <div className={ showtab===3 ? 'tab-pane fade show active' : "tab-pane fade"}>
+                    <Fruits/>
+                 </div>
+                 <div className={ showtab===4 ? 'tab-pane fade show active' : "tab-pane fade"}>
+                    <Sherbs/>
+                </div>
+                <div className={ showtab===5 ? 'tab-pane fade show active' : "tab-pane fade"}>
+                    <BestSellers/>
+                </div>
+                 </div>
+     
+            </section>
+        
+        </div>
+     )
 }
 export default Produce;

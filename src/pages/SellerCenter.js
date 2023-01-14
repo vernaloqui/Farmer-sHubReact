@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
+// import { db } from '../config/Config';
+// import axios from 'axios';
 
 function SellerCenter(){
 
@@ -13,88 +14,46 @@ const [product_name, setProductName] = useState();
 const [unit_price, setUnitPrice] = useState();
 const [quantity, setQuantity] = useState();
 const [product_img, setProductImage] = useState();
-const [products, setProducts] = useState([]);
+// const [products, setProducts] = useState([]);
+// let products
+// const [sellers, setSellers] = useState([]);
 
-useEffect(() => {
-    const url = 'http://localhost/farmersHub/products.php';
-    axios.get(url).then((response) =>{
-        setProducts(response.data);
-        console.log(products);  
-    })
-},[])
 
-const submitBtn = function(e){
-    e.preventDefault();
-    let getData = new FormData();
-    getData.append('product_name', product_name);
-    getData.append('unit_price', unit_price);
-    getData.append('quantity', quantity);
-    getData.append('product_img', product_img);
-    getData.append('function', 'insert');
-    axios({
-        method:'POST',
-        url: 'http://localhost/farmersHub/products.php',
-        data: getData,
-        config: 'Content-Type="multipart/form-data"'
-    }).then(function(response) {
-        const url = 'http://localhost/farmersHub/products.php';
-        axios.get(url).then((response)=> {
-            setProducts(response.data);
-            console.log(products);
-        })
-    }).catch(function(error){
-        alert("error!");
-    });
-    setProductName('');
-    setUnitPrice('');
-    setQuantity('');
-    setProductImage('');
+// const getSeller = async ()=>{
+//     const sellers = await db.collection('Sellers').get();
+//     const sellersArray = [];
+//     for (var snap of sellers.docs){
+//         var data =snap.data();
+//         data.ID = snap.id;
+//         sellersArray.push({...data
+//         })
+//         if(sellersArray.length === sellers.docs.length){
+//             setSellers(sellersArray); 
+//         }
+//     }
+// }
 
-}
+// useEffect(()=>{
+//     getSeller();
+// }, [])
 
-const deleteProduct = function(e){
-    // alert(e.currentTarget.id);
-    let getData = new FormData();
-    getData.append('product_id', e.currentTarget.id);
-    getData.append('function', 'delete'); //delete
-    axios({
-        method: 'POST', // get or post
-        url: 'http://localhost/farmersHub/products.php', //db link
-        data: getData, //data to be transferred
-        config: 'Content-Type="multipart/form-data"'
-    }).then(function(response){
-        const url = 'http://localhost/farmersHub/products.php';
-        axios.get(url).then((response) => {
-            setProducts(response.data);
-            console.log(products);
-        })
-    }).catch(function(error){
-        console.log(error);
-        alert("mali!")
-    });
-}
+// const getProducts = async ()=>{
+//     const products = await db.collection('Sellers').get();
+//     const sellersArray = [];
+//     for (var snap of sellers.docs){
+//         var data =snap.data();
+//         data.ID = snap.id;
+//         sellersArray.push({...data
+//         })
+//         if(sellersArray.length === sellers.docs.length){
+//             setSellers(sellersArray); 
+//         }
+//     }
+// }
 
-const updateBtn = function(e){
-    alert (e.currentTarget.title);
-    let getData = new FormData();
-    getData.append('product_id', e.currentTarget.title);
-    getData.append('product_name', document.getElementById('product_name'+e.currentTarget.title).value); //update
-    getData.append('unit_price', document.getElementById('unit_price'+e.currentTarget.title).value);
-    getData.append('quantity', document.getElementById('quantity'+e.currentTarget.title).value);
-    getData.append('product_img', document.getElementById('product_img'+e.currentTarget.title).value);
-    getData.append('function', 'update');
-    axios({
-        method: 'POST', // get or post
-        url: 'http://localhost/farmersHub/products.php', //db link
-        data: getData, //data to be transferred
-        config: 'Content-Type="multipart/form-data"'
-    }).then(function(response){
-        alert ("successfully updated");
-    }).catch(function(error){
-        console.log(error);
-        alert("mali!")
-    });
-}
+// useEffect(()=>{
+//     getSeller();
+// }, [])
 
     return (
         <div className="container mt-5">
@@ -206,7 +165,8 @@ const updateBtn = function(e){
                             <input type="number" name="unit_price" value={unit_price} onChange = {(e) => setUnitPrice(e.target.value)}/>
                             <input type="number" name="quantity" value={quantity} onChange = {(e) => setQuantity(e.target.value)}/>
                             <input type="file" name="product_img" value={product_img} accept="image/*" onChange = {(e) => setProductImage(e.target.value)}/>
-                            <input type="submit" onClick = {submitBtn}/>
+                            <input type="submit" />
+                            {/* onClick = {submitBtn} */}
                         
                         </form>
                         <table>
@@ -219,19 +179,21 @@ const updateBtn = function(e){
                                 </tr>
                             </thead>
                             <tbody>
-                            {products.map((val) =>{
+                            {/* {products.map((val) =>{
                                 return(
                                 <tr key={val.product_id}>
                                     <td><input type="text" defaultValue={val.product_name} id={'product_name'+val.product_id}/></td>
                                     <td><input type="number" defaultValue={val.unit_price} id={'unit_price'+val.product_id}/></td>
                                     <td><input type="number" defaultValue={val.quantity} id={'quantity'+val.product_id}/></td>
                                     <td><img src={val.product_img} alt={product_img} id={'product_img'+val.product_id}/></td>
-                                    <td><button id={val.product_id} onClick={deleteProduct}>Delete</button></td>                                  
-                                    <td><button title={val.product_id} onClick={updateBtn}>Update</button></td>
-
+                                    <td><button id={val.product_id} >Delete</button></td>    */}
+                                    {/* onClick={deleteProduct}                                */}
+                                    {/* <td><button title={val.product_id} >Update</button></td> */}
+                                    {/* onClick={updateBtn} */}
+{/* 
                                 </tr>
                                 )
-                            })}
+                            })} */}
                                 
                             </tbody>  
 
