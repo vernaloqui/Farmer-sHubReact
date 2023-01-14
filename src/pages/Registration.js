@@ -14,7 +14,7 @@ function Registration(){
   const [lastname, setLastname] = useState('');
   const [cp_num, setCpnum] = useState('');
   const [address, setAddress] = useState('');
-  
+  const [error, setError] = useState('');
 
   const registerUser = (e) => {
     e.preventDefault();
@@ -29,24 +29,28 @@ function Registration(){
      const user = userCredential.user;
 
      console.log(user);
-     
-     toast.success("Successfully Registered....");
-     navigate("/login");
+    setEmail('');
+    setPass('');
+    setCpass('');
+    setFirstname('');
+    setMiddlename(''); 
+    setLastname('');
+    setCpnum('');
+    setAddress('');
+    setError('');
+    //  toast.success("Successfully Registered....");
+     navigate("/produce");
      // ...
   })
-   .catch((error) => {
-     // const errorCode = error.code;
-     // const errorMessage = error.message;
-     toast.error(error.message);
-     
-    });
+   .catch(err => setError(err.message)); 
+    };
 
-  };
+  
 
 return(
     <div>
 <section className="container mt-5" id="formSection">
-    
+{error && <span className="error-msg">{error}</span>}
     <form className="container border border-secondary rounded p-4" onSubmit={registerUser}>
         <div className="accordion accordion-flush" id="RegisterAccount">
   
