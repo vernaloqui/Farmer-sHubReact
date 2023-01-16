@@ -1,7 +1,7 @@
 import React, { useState }  from "react";
 import { auth } from "../config/Config";
 import { Link, useNavigate } from "react-router-dom";
-import {toast} from 'react-toastify';
+import { db } from "../config/Config";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function Registration(){
@@ -19,9 +19,9 @@ function Registration(){
   const registerUser = (e) => {
     e.preventDefault();
     if (pass !== cpass){
-        toast.error("passwords do not match!");
+        setError("passwords do not match!");
     }
-    
+    else{
 
     createUserWithEmailAndPassword(auth, email, pass, firstname, lastname, middlename, cp_num, address)
    .then((userCredential) => {
@@ -39,18 +39,30 @@ function Registration(){
     setAddress('');
     setError('');
     //  toast.success("Successfully Registered....");
+
      navigate("/produce");
      // ...
   })
    .catch(err => setError(err.message)); 
-    };
+
+   db.collection('Users').doc().set({
+    email: email,
+    cpNum: cp_num,
+    address: address,
+    fName: firstname,
+    lName: lastname,
+    middle: middlename,
+    password: pass
+   });
+    }
+};
 
   
 
 return(
     <div>
 <section className="container mt-5" id="formSection">
-{error && <span className="error-msg">{error}</span>}
+{error && <span className="error-msg" style={{backgroundColor:'red'}}>{error}</span>}
     <form className="container border border-secondary rounded p-4" onSubmit={registerUser}>
         <div className="accordion accordion-flush" id="RegisterAccount">
   
@@ -134,11 +146,11 @@ return(
         <br/>
         
         <div className="form-check">
-            <input type="checkbox" className="form-check-input" id="tandC"/>
+            <input type="checkbox" className="form-check-input" id="tandC" required/>
             <label className="form-check-label" htmlFor="tandC">I agree with the <Link to="">Terms and Conditions</Link>.</label>
         </div>
         <div className="form-check">
-            <input type="checkbox" className="form-check-input" id="privacy"/>
+            <input type="checkbox" className="form-check-input" id="privacy" required/>
             <label className="form-check-label" htmlFor="privacy">I agree with the <Link to="">Privacy Policy</Link>.</label>
         </div>
         <br/>

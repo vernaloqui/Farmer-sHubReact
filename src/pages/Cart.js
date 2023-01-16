@@ -6,7 +6,7 @@ import ulam from '../img/Ulam.png'
 import salad from '../img/salad.jpg';
 import pantry from '../img/pantry.png';
 import { Link } from 'react-router-dom';
-import { doc, deleteDoc } from "firebase/firestore";
+
 
 
 function Cart(){
@@ -45,17 +45,22 @@ function Cart(){
             }
         })
     }, [uid])
-
-    // const UpdateTotals = () =>{
-    //     const subtotals = cartItems.map(cartItem=>{
-    //         return cartItem.Subtotal;
-    //     })
-
-    //     const reducerOfsubtotals = (accumulator, currentValue) => accumulator+currentValue;
-    //     const totalPrice = subtotals.reduce(reducerOfsubtotals, 0);
-        
-    // }
     
+//computes the total price of the cart items
+    var totalPrice;
+    const UpdateTotal = () =>{
+        const subtotals = cartItems.map(cartItem=>{
+            return cartItem.Subtotal;
+        })
+        console.log(subtotals);
+        totalPrice = subtotals.reduce((partialSum, a) => partialSum + a, 0);
+        console.log(totalPrice); // 6
+        // const reducerOfsubtotals = (accumulator, currentValue) => accumulator+currentValue;
+        // const totalPrice = subtotals.reduce(reducerOfsubtotals, 0);
+        
+    }
+    console.log(cartItems);
+    UpdateTotal();
     let Item;
 
     const Update =(item)=>{
@@ -68,33 +73,47 @@ function Cart(){
         //update db
         auth.onAuthStateChanged(user =>{
             if(user){
-                db.collection(`'Cart' + ${uid}`).doc(item.uid).update(Item).then(() =>{
-                    console.log('increment added successfully');
-                }) 
-            }
+                var itemUpdate = db.collection(`'Cart' + ${uid}`).where("title", "==", item.title).get();
+                
+                itemUpdate.then(function(querySnapshot){
+                    querySnapshot.forEach(function(doc) {
+                        doc.ref.update(Item);
+                        
+                    });
+                    console.log("Entire Document has been deleted successfully.");
+                // db.collection(`'Cart' + ${uid}`).doc(item.uid).set(Item, {merge:true}).then(() =>{
+                //     console.log('increment added successfully');
+                // }) 
+            })
+            UpdateTotal();
+        }
             else{
-                console.log('user is not logged in to increment');
+                console.log('user is not logged in to change quantity');
             }
         })
     }
 
     
     const RemoveItem = (item) => {
-        console.log(item.ID);
-        const del = doc(db, `'Cart' + ${uid}`, item.UID );
+        console.log(item.title);
+        Item = item;
+        Item.qty = document.getElementById(item.title).value;
+        console.log(Item.id);
+        console.log(Item.qty);
+        Item.Subtotal = Item.qty * Item.price;
+        document.getElementById('subtotal'+item.title).value = Item.Subtotal;
 
-        deleteDoc(del).then(() => {
-            console.log("Entire Document has been deleted successfully.")
-        })
-        .catch(error => {
-            console.log(error);
-        })
-        // db.collection(`'Cart' + ${uid}`).doc(item.id).delete()
-        //             .then(() =>{
-        //                 console.log('deleted successfully');
-        //             }).catch((error) =>{
-        //                 console.log('Error removing the item on cart table: ', error);
-        //             })
+
+        var itemRemove = db.collection(`'Cart' + ${uid}`).where("title", "==", item.title).get();
+        console.log(itemRemove);
+        itemRemove.then(function(querySnapshot){
+            querySnapshot.forEach(function(doc) {
+                doc.ref.delete();
+                
+            });
+            console.log("Entire Document has been deleted successfully.");
+        });
+        UpdateTotal();
     }
     
 
@@ -173,7 +192,7 @@ function Cart(){
                                     <th scope="row">
                                         Total
                                     </th>
-                                    <th id="totalPrice">₱</th>
+                                    <th id="totalPrice">₱{totalPrice.toFixed(2)}</th>
                                 </tr>
                                     <tr className="text-end">
                                     <td colSpan="2">

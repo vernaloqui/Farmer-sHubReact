@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-// import { db } from '../config/Config';
-// import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { auth, db } from '../config/Config';
 
 function SellerCenter(){
 
@@ -16,44 +15,47 @@ const [quantity, setQuantity] = useState();
 const [product_img, setProductImage] = useState();
 // const [products, setProducts] = useState([]);
 // let products
-// const [sellers, setSellers] = useState([]);
+const [sellers, setSellers] = useState([]);
+const [uid, setUid] = useState(null);
+const [email, setEmail] = useState(null);
+const sellersArray = [];
 
+useEffect(() => {
+    
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            setUid(user.uid);
+            setEmail(user.email);
+        }
+    })
+});
+console.log(uid);  
+console.log(email); 
+// var sellersRef = db.collection('Sellers');
+// var query = sellersRef.where('uid', '==', uid);
+useEffect(()=>{
+    
+    db.collection("Sellers").where("email", "==", email)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            // console.log(doc.id, " => ", doc.data());
+            sellersArray.push({...doc.data()
+                    })
+            console.log(sellersArray);
+        });
+        
+    })
 
-// const getSeller = async ()=>{
-//     const sellers = await db.collection('Sellers').get();
-//     const sellersArray = [];
-//     for (var snap of sellers.docs){
-//         var data =snap.data();
-//         data.ID = snap.id;
-//         sellersArray.push({...data
-//         })
-//         if(sellersArray.length === sellers.docs.length){
-//             setSellers(sellersArray); 
-//         }
-//     }
-// }
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+    setSellers(sellersArray);
 
-// useEffect(()=>{
-//     getSeller();
-// }, [])
+}, [email]);
 
-// const getProducts = async ()=>{
-//     const products = await db.collection('Sellers').get();
-//     const sellersArray = [];
-//     for (var snap of sellers.docs){
-//         var data =snap.data();
-//         data.ID = snap.id;
-//         sellersArray.push({...data
-//         })
-//         if(sellersArray.length === sellers.docs.length){
-//             setSellers(sellersArray); 
-//         }
-//     }
-// }
-
-// useEffect(()=>{
-//     getSeller();
-// }, [])
+console.log(sellers);
 
     return (
         <div className="container mt-5">
@@ -84,39 +86,32 @@ const [product_img, setProductImage] = useState();
                     <div className={toggleState === 1 ? "tab-pane active" : "tab-pane"} id="Profile">
                         <div className="row border g-0 shadow-sm">
                             <h3 className="mb-3">My Profile</h3>
-                            <div className="col-3 d-block">
-                                <div id="profilePic">
-                                    <img src="..." alt="" className="img-thumbnail h-25" style={{width:'500px', height:'300px'}} />
+                                <div className="col-3 d-block">
+                                
                                 </div>
-                                <div className="input-group">
-                                    <label className="input-group-text" htmlFor="inputGroupFile" style={{cursor:'pointer'}}>Change photo</label>
-                                    <input type="file" className="form-control" id="inputGroupFile" style={{display: 'none'}} />
-                                </div>
-                            </div>
-                             <div className="col-9 p-4">
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="fName">First Name:</span>
-                                    <input type="text" className="form-control" id="firstName" placeholder="John" /> 
-                                    {/* <!--input id change fName to firstName--> <!--add placeholder--> */}
-                                    <span className="input-group-text" id="mName">Middle Initial:</span>
-                                    <input type="text" className="form-control" id="middleName" placeholder="F." /> 
-                                    {/* <!--add placeholder--> */}
-                                    {/* <!--input id change mName to middleName--> */}
-                                    <span className="input-group-text" id="lName">Last Name:</span>
-                                    <input type="text" className="form-control" id="lastName" placeholder="Doe" />
-                                    {/* <!--add placeholder--> */}
-                                    {/* <input id change lName to lastName /> */}
-                                </div><br/>
-                                <div className="input-group mb-3">
-                                    <label htmlFor="date" className="input-group-text">Date of Birth:</label>
-                                    <input type="date" className="form-control" id="dob" />
-                                </div><br/>
-                                <div className="input-group mb-3">
-                                    <label htmlFor="phoneNum" className="input-group-text">Cellphone number:</label>
-                                    <input type="tel" className="form-control" id="phoneNum" placeholder="09XXXXXXXXX" maxLength="11" minLength="11" />
-                                </div><br/>
-                                <button type="submit" className="btn btn-info text-capitalize btn-sm" >Save Changes</button>
-                            </div>
+                                
+                                {sellers.map((details, index) =>{
+                        return(
+                                <div className="col-9 p-4" key={index}>
+                                    <div className="input-group mb-3">
+                                        <span className="input-group-text" id="fName">First Name:</span>
+                                        <input type="text" className="form-control" id="firstName" defaultValue={details.fName} disabled/> 
+                                        
+                                        <span className="input-group-text" id="mName">Middle Initial:</span>
+                                        <input type="text" className="form-control" id="middleName" defaultValue={details.middle} disabled/> 
+                                        <span className="input-group-text" id="lName">Last Name:</span>
+                                        <input type="text" className="form-control" id="lastName" defaultValue={details.lName} disabled/>
+                                        
+                                    </div><br/>
+                                    <div className="input-group mb-3">
+                                        <label htmlFor="phoneNum" className="input-group-text">Cellphone number:</label>
+                                        <input type="tel" className="form-control" id="phoneNum" placeholder="09XXXXXXXXX" maxLength="11" minLength="11" />
+                                    </div><br/>
+                                    <button type="submit" className="btn btn-info text-capitalize btn-sm" >Save Changes</button>
+                                </div>     
+                            )}
+                                )}
+                                         
                         </div>
                     </div>
                     <div className={toggleState === 2 ? "tab-pane active" : "tab-pane"} id="BankCards">

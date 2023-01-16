@@ -4,7 +4,7 @@ import { auth } from './config/Config';
 import logo from './img/logo.png';
 import { FaUserCircle } from "react-icons/fa";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 // import { useDispatch, useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, setIsCartOpen } from './redux/authSlice';
@@ -62,7 +62,7 @@ const logoutUser = (e) =>{
 
       }).catch((error) => {
         // An error happened.
-        toast.error(error.message);
+        // toast.error(error.message);
       });
 };
 
