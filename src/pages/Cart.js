@@ -54,9 +54,7 @@ function Cart(){
         })
         console.log(subtotals);
         totalPrice = subtotals.reduce((partialSum, a) => partialSum + a, 0);
-        console.log(totalPrice); // 6
-        // const reducerOfsubtotals = (accumulator, currentValue) => accumulator+currentValue;
-        // const totalPrice = subtotals.reduce(reducerOfsubtotals, 0);
+        console.log(totalPrice); 
         
     }
     console.log(cartItems);
@@ -161,7 +159,7 @@ function Cart(){
                 {cartItems.length <1 && (
                     <tr>
                         <td>
-                            <p className="text-center fw-bold bg-danger">Your cart is empty! Add some items to checkout.</p>
+                            <p className="text-center fw-bold bg-warning">Your cart is empty! Add some items to checkout.</p>
                         </td>
                     </tr>
                 )}

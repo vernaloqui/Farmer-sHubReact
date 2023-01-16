@@ -1,6 +1,23 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { auth } from './config/Config';
 
 function Footer(){
+
+    function GetUserUid(){
+        const [uid, setUid] = useState(null);
+        useEffect(()=>{
+            auth.onAuthStateChanged(user =>{
+                if(user){
+                    setUid(user.uid);
+                }
+            })
+        }, [uid, setUid])
+        return uid;
+    }
+
+    const uid = GetUserUid();
+    console.log(uid);
 
     return(
         <section>
@@ -41,7 +58,12 @@ function Footer(){
 
                 <div className="col-md-2">
                 <h6 className="text-uppercase fw-bold">
+                    {uid&&<>
+                    <Link to="/sellerCenter" style={{color:'#073418'}}>Seller Center</Link>
+                    </>}
+                    {!uid&&<>
                     <Link to="/sellerLogin" style={{color:'#073418'}}>Seller Center</Link>
+                    </>}
                 </h6>
                 </div>
             </div>

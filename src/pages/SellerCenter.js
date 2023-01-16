@@ -18,7 +18,7 @@ const [product_img, setProductImage] = useState();
 const [sellers, setSellers] = useState([]);
 const [uid, setUid] = useState(null);
 const [email, setEmail] = useState(null);
-const sellersArray = [];
+
 
 useEffect(() => {
     
@@ -31,16 +31,13 @@ useEffect(() => {
 });
 console.log(uid);  
 console.log(email); 
-// var sellersRef = db.collection('Sellers');
-// var query = sellersRef.where('uid', '==', uid);
+
 useEffect(()=>{
-    
+    const sellersArray = [];
     db.collection("Sellers").where("email", "==", email)
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            // console.log(doc.id, " => ", doc.data());
             sellersArray.push({...doc.data()
                     })
             console.log(sellersArray);
@@ -56,6 +53,7 @@ useEffect(()=>{
 }, [email]);
 
 console.log(sellers);
+console.log(sellers.length);
 
     return (
         <div className="container mt-5">
@@ -89,18 +87,15 @@ console.log(sellers);
                                 <div className="col-3 d-block">
                                 
                                 </div>
-                                
-                                {sellers.map((details, index) =>{
-                        return(
-                                <div className="col-9 p-4" key={index}>
+                                <div className="col-9 p-4">
                                     <div className="input-group mb-3">
                                         <span className="input-group-text" id="fName">First Name:</span>
-                                        <input type="text" className="form-control" id="firstName" defaultValue={details.fName} disabled/> 
+                                        <input type="text" className="form-control" id="firstName"  disabled/> 
                                         
                                         <span className="input-group-text" id="mName">Middle Initial:</span>
-                                        <input type="text" className="form-control" id="middleName" defaultValue={details.middle} disabled/> 
+                                        <input type="text" className="form-control" id="middleName" disabled/> 
                                         <span className="input-group-text" id="lName">Last Name:</span>
-                                        <input type="text" className="form-control" id="lastName" defaultValue={details.lName} disabled/>
+                                        <input type="text" className="form-control" id="lastName"  disabled/>
                                         
                                     </div><br/>
                                     <div className="input-group mb-3">
@@ -109,8 +104,6 @@ console.log(sellers);
                                     </div><br/>
                                     <button type="submit" className="btn btn-info text-capitalize btn-sm" >Save Changes</button>
                                 </div>     
-                            )}
-                                )}
                                          
                         </div>
                     </div>
