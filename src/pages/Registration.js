@@ -1,7 +1,6 @@
 import React, { useState }  from "react";
-import { auth } from "../config/Config";
+import { auth, db } from "../config/Config";
 import { Link, useNavigate } from "react-router-dom";
-import { db } from "../config/Config";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function Registration(){

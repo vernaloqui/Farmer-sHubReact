@@ -5,7 +5,8 @@ import ulam from '../img/Ulam.png'
 // import fruit from '../img/fruitBasket.jpg';
 import salad from '../img/salad.jpg';
 import pantry from '../img/pantry.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import "./check.css";
 
 
 
@@ -25,7 +26,7 @@ function Cart(){
     }
 
     const uid = GetUserUid();
-
+    const navigate = useNavigate();
     const [cartItems, setCartItems] =useState([]);
 
     useEffect(() =>{
@@ -114,6 +115,22 @@ function Cart(){
         UpdateTotal();
     }
     
+    const CheckOut = () =>{
+        
+        db.collection(`Buyer + ${uid}`).add({cartItems}).catch((error)=>{
+            console.log("Error adding documents: " + error);
+        }) ;
+        var itemRemove = db.collection(`'Cart' + ${uid}`).get();
+        itemRemove.then(function(querySnapshot){
+            querySnapshot.forEach(function(doc) {
+                doc.ref.delete();
+                
+            });
+            console.log("Entire Document has been deleted successfully.");
+        }); 
+        alert("Your order has been successfully placed.")
+        navigate('/')
+    }
 
     return (
     <div className="container-fluid" style={{backgroundColor: '#F8FEFA'}}>
@@ -194,7 +211,7 @@ function Cart(){
                                 </tr>
                                     <tr className="text-end">
                                     <td colSpan="2">
-                                        <button className="btn shadow" style={{backgroundColor: '#A2DBB7'}} data-bs-toggle="modal" data-bs-target="#confirmCO" >Checkout via Cash on Delivery</button>
+                                        <button className="btn shadow" style={{backgroundColor: '#A2DBB7'}} onClick={CheckOut}>Checkout via Cash on Delivery</button>
                                     </td>
                                 </tr>
                             </tbody>

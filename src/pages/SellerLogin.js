@@ -24,18 +24,14 @@ function SellerLogin(props){
     <section className="container mt-2 w-25">
         
     
-        <p className="h4  text-center">Login | 
-            <Link type="button" 
-                className="text-muted" 
-                to="/farmerPartner"
-                style={{textDecoration:'none'}}>Register
-            </Link>
+        <p className="h4  text-center">Seller Login
+            
         </p>
         <br/>
         <br/>
 
         <div className="mb-3">
-        <form className="logIn container border border-secondary rounded p-4" onSubmit={login}
+        <form className="logIn container border border-secondary rounded p-4" 
             style={{
                     padding: "5rem 2.5rem",
                     borderRadius: "1rem",
@@ -48,33 +44,36 @@ function SellerLogin(props){
                     borderRightColor: "rgba(225, 225, 225, 225, 0)"
             }}>
 
-            {/* <div onLoad={document.form.text.focus()}> */}
+            
             <div className="mail">
 
-            <label htmlFor="uname" className="form-label">Email address</label>
+            <label className="form-label">Email address</label>
             <input type="text" name='email' id='email' className="form-control" placeholder="example@gmail.com" 
                    value={email} onChange={(e) => setEmail(e.target.value)} />
+            
             </div>
             <br/>
 
             <div className="mb-3">
-                <label htmlFor="psw" className="form-label">Password</label>
+                <label className="form-label">Password</label>
                 <input type="password" className="form-control" id="password" name='password' value={password} 
                         onChange={(e) => setPassword(e.target.value)} required/>
             </div>
 
-            <div className="form-check">
-                <input type="checkbox" className="form-check-input" id="Remember"/>
-                <label className="form-check-label"  htmlFor="Remember">Remember me</label>
-            </div>
             <br/>
 
-            <input type="submit" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', 
-            boxShadow:'5px 5px grey'}} value="Login"/>
-
-            <button type="button" className="btn btn-link text-muted" style={{textDecoration:'none', marginLeft: '80%'}} 
-            data-bs-toggle="modal" data-bs-target="#forgotPw">Forgot password</button>
             
+            <button type="button" className="btn" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', padding:'5px',
+            boxShadow:'5px 5px grey'}} onClick={login}>Log in</button><br></br>
+{/* 
+            <button type="button" className="btn btn-link text-muted" style={{textDecoration:'none', marginLeft: '80%'}} 
+            data-bs-toggle="modal" data-bs-target="#forgotPw">Forgot password</button> */}
+            <p>No account yet?</p>
+                <Link type="button" 
+                className="text-muted" 
+                to="/farmerPartner"
+                style={{textDecoration:'none'}}>Register here
+                </Link>
             {/* </div> */}
         </form>
         </div>
@@ -112,6 +111,7 @@ function SellerLogin(props){
                     </button>
 
                 </div>
+                
                 </form>
                 {error && <span className="error-msg">{error}</span>}
 

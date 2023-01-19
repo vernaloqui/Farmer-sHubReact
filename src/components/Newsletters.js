@@ -1,4 +1,25 @@
+import { useState } from 'react';
+import { db } from "../config/Config";
+
 function Newsletters() {
+  const [email, setEmail] = useState('');
+    
+    const Subscribe = (e) =>{
+        e.preventDefault();
+        console.log(email);
+        db.collection('Subscribers').doc().set({           
+            Email: email
+        })
+        
+        document.getElementById('emailBox').value = "";
+        document.getElementById('notif').innerHTML=`<p>You will now receive special updates and promotional offers via your email. Thank you!</p>`;
+        setTimeout(Clearnotif, 1000);         
+        setEmail('');
+    }
+
+    function Clearnotif (){
+        document.getElementById('notif').innerHTML="";
+    }
     return (
       <div>
         <div>
@@ -46,7 +67,7 @@ function Newsletters() {
                   className="form-control"
                   style={{ borderRadius: "5rem", padding: "10px" }}
                   placeholder="Enter address"
-                  required
+                  required 
                 />
                 <button
                   type="submit"
@@ -55,7 +76,7 @@ function Newsletters() {
                     backgroundColor: "#16773b",
                     borderRadius: "5rem",
                     padding: "10px",
-                  }}
+                  }} onClick={Subscribe}
                 >
                   <i className="bi bi-send-check-fill"></i> Subscribe
                 </button>

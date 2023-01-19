@@ -24,18 +24,13 @@ function Login(props){
     <section className="container mt-2 w-25">
         
     
-        <p className="h4  text-center">Login | 
-            <Link type="button" 
-                className="text-muted" 
-                to="/registration"
-                style={{textDecoration:'none'}}>Register
-            </Link>
+        <p className="h4  text-center">Login 
         </p>
         <br/>
         <br/>
 
         <div className="mb-3">
-        <form className="logIn container border border-secondary rounded p-4" onSubmit={login}
+        <form className="logIn container border border-secondary rounded p-4" 
             style={{
                     padding: "5rem 2.5rem",
                     borderRadius: "1rem",
@@ -63,19 +58,25 @@ function Login(props){
                         onChange={(e) => setPassword(e.target.value)} required/>
             </div>
 
-            <div className="form-check">
+            {/* <div className="form-check">
                 <input type="checkbox" className="form-check-input" id="Remember"/>
                 <label className="form-check-label"  htmlFor="Remember">Remember me</label>
-            </div>
+            </div> */}
             <br/>
 
-            <input type="submit" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', 
-            boxShadow:'5px 5px grey'}} value="Login"/>
+            <button type="button" className="btn" style={{backgroundColor:'#A2DBB7', borderRadius:'5px', padding:'5px',
+            boxShadow:'5px 5px grey'}} onClick={login}>Log in</button><br></br>
 
-            <button type="button" className="btn btn-link text-muted" style={{textDecoration:'none', marginLeft: '80%'}} 
-            data-bs-toggle="modal" data-bs-target="#forgotPw">Forgot password</button>
+            {/* <button type="button" className="btn btn-link text-muted" style={{textDecoration:'none', marginLeft: '80%'}} 
+            data-bs-toggle="modal" data-bs-target="#forgotPw">Forgot password</button> */}
             
             {/* </div> */}
+            <p>No account yet?</p>
+                <Link type="button" 
+                className="text-muted" 
+                to="/registration"
+                style={{textDecoration:'none'}}>Register here
+                </Link>
         </form>
         {error && <span className="error-msg">{error}</span>}
         </div>

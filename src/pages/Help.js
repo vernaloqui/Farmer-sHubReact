@@ -1,49 +1,29 @@
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import { useState } from 'react';
+import { db } from "../config/Config";
 
 function Help() {
 
-    const [names, setnames] = useState();
-    const [emails, setemails] = useState();
-    const [messages, setmessages] = useState();
+    const [names, setnames] = useState('');
+    const [emails, setemails] = useState('');
+    const [messages, setmessages] = useState('');
 
-
-    const [helps, sethelps] = useState([]);
-
-
-    useEffect(() => {
-        const url = 'http://localhost/sat-app/helpOne.php';
-        axios.get(url).then((response) => {
-            sethelps(response.data);
-            // console.log(helps);
-        })
-    }, [])
-
-    const buttonHelp = function (e) {
+    const submitMessage = (e) =>{
         e.preventDefault();
-        let getData = new FormData();
-        getData.append('names', names);
-        getData.append('emails', emails);
-        getData.append('messages', messages);
+        db.collection('Messages').doc().set({
+            Name: names,
+            Email: emails,
+            Text: messages
+        })
+        setnames('');
+        setemails('');
+        setmessages('');
+        document.getElementById('notif').innerHTML=`<p>Your inquiry has been sent. Please expect a response within 24 hours. Thank you!</p>`;
+        setTimeout(Clearnotif, 1000); 
+    }
 
-        getData.append('function', 'insert');
-
-
-        axios({
-            method: 'POST',
-            url: 'http://localhost/sat-app/helpOne.php',
-            data: getData,
-            config: 'Content-Type ="multipart/form-data"'
-        }).then(function (response) {
-            //alert("successfully deleted!");
-            const url = 'http://localhost/sat-app/helpOne.php';
-            axios.get(url).then((response) => {
-                sethelps(response.data);
-                console.log(helps);
-            })
-        });
+    function Clearnotif (){
+        document.getElementById('notif').innerHTML="";
     }
 
 
@@ -58,7 +38,7 @@ function Help() {
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingOne">
                             <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                                <i class="bi bi-question-diamond-fill" >&nbsp;</i> Where are your fruits and vegetables sourced?
+                                <i className="bi bi-question-diamond-fill" >&nbsp;</i> Where are your fruits and vegetables sourced?
                             </button>
                         </h2>
                         <div id="collapseOne" className="accordion-collapse collapse ">
@@ -73,7 +53,7 @@ function Help() {
             <!--Question #2--> */}
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingTwo">
-                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> How should your products be stored? </button>
+                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"> <i className="bi bi-question-diamond-fill" >&nbsp;</i> How should your products be stored? </button>
                         </h2>
                         <div id="collapseTwo" className="accordion-collapse collapse">
                             <div className="card-body">
@@ -85,7 +65,7 @@ function Help() {
             <!--Question #3--> */}
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingThree">
-                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseThree"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> How quickly can you deliver? </button>
+                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseThree"> <i className="bi bi-question-diamond-fill" >&nbsp;</i> How quickly can you deliver? </button>
                         </h2>
                         <div id="collapseThree" className="accordion-collapse collapse ">
                             <div className="card-body">
@@ -97,7 +77,7 @@ function Help() {
             <!--Question #4--> */}
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingFour">
-                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFour"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> How do you deliver our orders? </button>
+                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFour"> <i className="bi bi-question-diamond-fill" >&nbsp;</i> How do you deliver our orders? </button>
                         </h2>
                         <div id="collapseFour" className="accordion-collapse collapse ">
                             <div className="card-body">
@@ -109,7 +89,7 @@ function Help() {
             <!--Question #5--> */}
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingFive">
-                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFive"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> If I am not satisfied with my orders, what are my options? </button>
+                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseFive"> <i className="bi bi-question-diamond-fill" >&nbsp;</i> If I am not satisfied with my orders, what are my options? </button>
                         </h2>
                         <div id="collapseFive" className="accordion-collapse collapse ">
                             <div className="card-body">
@@ -121,7 +101,7 @@ function Help() {
             <!--Question #6--> */}
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="headingSix">
-                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseSix"> <i class="bi bi-question-diamond-fill" >&nbsp;</i> Do you accept bulk orders? </button>
+                            <button type="button" className="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseSix"> <i className="bi bi-question-diamond-fill" >&nbsp;</i> Do you accept bulk orders? </button>
                         </h2>
                         <div id="collapseSix" className="accordion-collapse collapse ">
                             <div className="card-body">
@@ -147,7 +127,10 @@ function Help() {
                             <div className="col-sm-12 col-lg-6">
                                 <div className="right">
                                     <i className="bi bi-caret-right-fill" style={{ color: '#A2DBB7' }}></i>
-                                    <form>
+                                    <form onSubmit={submitMessage}>
+                                        <div className="mb-3" id="notif">
+                                           
+                                        </div>
                                         <div className="mb-3">
                                             <label htmlFor="names" className="form-label">Your Name</label>
                                             <input type="text" className="form-control" id="names" placeholder="Paula Joyce" name="names" value={names} onChange={(e) => setnames(e.target.value)} />
@@ -162,7 +145,7 @@ function Help() {
                                             <textarea type="password" className="form-control" id="messages" style={{ resize: 'none' }} name="messages" value={messages} onChange={(e) => setmessages(e.target.value)}></textarea>
 
                                         </div>
-                                        <input type="submit" name="submit" onClick={buttonHelp} value="Place Order" className="btn" />
+                                        <input type="submit" name="submit" value="Submit Inquiry" className="btn" />
 
                                     </form>
                                 </div>

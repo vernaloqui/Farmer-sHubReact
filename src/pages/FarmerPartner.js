@@ -1,7 +1,6 @@
 import React, { useState }  from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
 import { auth, db, storage } from "../config/Config";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 
 
 function FarmerPartner(){
@@ -13,10 +12,38 @@ function FarmerPartner(){
     const [IDcard, setIDcard] = useState(null);
     const [storeName, setStoreName] = useState('');
     // const [itemList, setItemList] = useState([]);
+    const navigate = useNavigate();
     const [error, setError] = useState('');
 
     const types = ['image/png', 'image/jpeg', 'image/jpg'];
 
+    
+
+    const SellerSignup = (e) =>{
+        e.preventDefault();
+        console.log('form submitted');
+        console.log(email, password, fName, middle, lName, storeName);
+        uploadID();
+        auth.createUserWithEmailAndPassword(email, password).then((cred)=>{
+            db.collection('Sellers').doc(cred.user.uid).set({
+                email: email,
+                password: password,
+                fName: fName,
+                lName: lName,
+                middle: middle,
+                storeName: storeName
+            }).then(()=>{
+                setEmail('');
+                setPassword('');
+                setFName('');
+                setMiddle('');
+                setLName('');
+                setStoreName('');
+                setError('');
+                navigate('/sellerCenter');
+            }).catch(err=>setError(err.message));
+        }).catch(err=>setError(err.message));
+    }
     const IDHandler = (e) => {
         let selectedFile = e.target.files[0];
         if(selectedFile && types.includes(selectedFile.type)){
@@ -47,32 +74,6 @@ function FarmerPartner(){
                 }).catch(err => setError(err.message));
             })
         })
-    }
-
-    const SellerSignup = (e) =>{
-        e.preventDefault();
-        console.log('form submitted');
-        console.log(email, password, fName, middle, lName, storeName);
-        uploadID();
-        auth.createUserWithEmailAndPassword(email, password).then((cred)=>{
-            db.collection('Sellers').doc(cred.user.uid).set({
-                email: email,
-                password: password,
-                fName: fName,
-                lName: lName,
-                middle: middle,
-                storeName: storeName
-            }).then(()=>{
-                setEmail('');
-                setPassword('');
-                setFName('');
-                setMiddle('');
-                setLName('');
-                setStoreName('');
-                setError('');
-                propTypes.history.push('/login');
-            }).catch(err=>setError(err.message));
-        }).catch(err=>setError(err.message));
     }
     return(
         <section className="container mt-5">
@@ -278,14 +279,11 @@ function FarmerPartner(){
                 </div>
                 <br/>
                 <button type="submit" className="btn text-capitalize" style={{backgroundColor: '#A2DBB7', borderRadius: '5px', boxShadow: '5px', color: 'grey'}} >Register Account</button><br/><br/>
-                <a href="Login.html"><button type="button" className="btn btn-link text-muted" style={{textDecoration:'none'}}>Already have an account? Log in here.</button></a>
+                <Link to="/sellerLogin"><button type="button" className="btn btn-link text-muted" style={{textDecoration:'none'}}>Already have an account? Log in here.</button></Link>
                 
             </form>
             {error && <div className="error-msg">{error}</div>}
             <br/>
-            <span>Already have an account? Login 
-                <Link to="/login">Here</Link>
-            </span>
         </section>
     )
 }
