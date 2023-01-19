@@ -3,6 +3,7 @@ import farmertwo from "../img/testi2.png";
 import farmerthree from "../img/testi3.png";
 import farmersMin from "../img/FarmersMin.jpg";
 import { Row } from "react-bootstrap";
+import Truckun from "./Truckun";
 
 
 function Testimonial() {
@@ -25,7 +26,7 @@ function Testimonial() {
         >
           <br />
 
-          <h3 className="display-6 fw-bold  text-light">
+          <h3 className="display-6 fw-bold  text-dark">
             <u>Testimonial </u>
           </h3>
 
@@ -36,7 +37,7 @@ function Testimonial() {
                 style={{ color: "#073418" }}
               >
                 <div className="d-flex flex-column">
-                  <p className="font-monospace text-light">
+                  <p className="font-monospace text-dark">
                     "Farmer's Hub help increase our marketing sales and reduce
                     product waste."
                   </p>
@@ -62,7 +63,7 @@ function Testimonial() {
                 style={{ color: "#073418" }}
               >
                 <div className="d-flex flex-column">
-                  <p className="font-monospace text-light">
+                  <p className="font-monospace text-dark">
                     "Farmer's Hub has been a huge benefit to us farmers in terms
                     of promoting our food items."
                   </p>
@@ -88,7 +89,7 @@ function Testimonial() {
                 style={{ color: "#073418" }}
               >
                 <div className="d-flex flex-column">
-                  <p className="font-monospace text-light" >
+                  <p className="font-monospace text-dark" >
                     "Farmer's Hub assists us in selling our fresh items to our
                     valued customers online."
                   </p>
@@ -110,7 +111,13 @@ function Testimonial() {
               </div>
             </div>
           </Row>
+          <br/>
         </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <Truckun></Truckun>
       </section>
     </div>
   );
