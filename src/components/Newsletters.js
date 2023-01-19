@@ -26,10 +26,6 @@ function Newsletters() {
           <form name="ValidFormSubs">
             <br />
             <br />
-            <br />
-            <br />
-            <br />
-            <br />
   
             <div
               className="full-container Newsletter d-sm-block mx-5 text-center "
@@ -65,7 +61,7 @@ function Newsletters() {
                   name="ValidSubscribe"
                   id="email"
                   className="form-control"
-                  style={{ borderRadius: "5rem", padding: "10px" }}
+                  style={{border: 'none',textAlign: 'center',  background: 'transparent', padding: "10px" }}
                   placeholder="Enter address"
                   required 
                 />
